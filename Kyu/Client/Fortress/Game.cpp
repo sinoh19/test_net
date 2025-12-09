@@ -1093,47 +1093,7 @@ void physics_Action(HWND hWnd)
 
 void camera_turn()
 {
-    if (camera_mode)
-        return;
-
-    // 서버와 연결된 경우 각 클라이언트는 자신의 탱크를 기준으로 화면을 이동한다.
-    int targetPlayerId = -1;
-    if (IsNetworkConnected())
-        targetPlayerId = GetMyPlayerId();
-
-    // 오프라인이거나 ID를 아직 받지 못한 경우 기존 턴 기반 시점을 유지
-    if (targetPlayerId < 0)
-        targetPlayerId = player_1turn ? 0 : 1;
-
-    Fire* targetPlayer = nullptr;
-    if (targetPlayerId == 0)
-        targetPlayer = &A;
-    else if (targetPlayerId == 1)
-        targetPlayer = &B;
-
-    if (!targetPlayer || targetPlayer->isFire)
-        return;
-
-    const double desiredCameraX = targetPlayer->left - 300;
-    const double desiredCameraY = targetPlayer->top - 200;
-
-    if (camera_x < desiredCameraX)
-        camera_x += 10;
-    if (camera_x > desiredCameraX)
-        camera_x -= 10;
-    if (camera_y < desiredCameraY)
-        camera_y += 10;
-    if (camera_y > desiredCameraY)
-        camera_y -= 10;
-
-    if (camera_x < 0)
-        camera_x = 0;
-    if (camera_y < 0)
-        camera_y = 0;
-    if (camera_x > 1000)
-        camera_x = 1000;
-    if (camera_y > 400)
-        camera_y = 400;
+   
 }
 
 
