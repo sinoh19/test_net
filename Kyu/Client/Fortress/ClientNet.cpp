@@ -43,13 +43,12 @@ static void ApplyStatePacket(const struct PKT_STATE& pkt)
     for (int i = 0; i < MAX_PLAYER; ++i)
     {
         const PlayerStateData& state = pkt.players[i];
-        // 턴 정보는 탱크 상태의 VALID 여부와 상관없이 바로 반영해서
-       // 서버가 전달하는 턴 순서대로 클라이언트 화면이 전환되도록 한다.
-        const bool isTurn = (state.flags & PLAYER_FLAG_MY_TURN) != 0;
+
+        // 실시간 대전 모드: 턴 개념 없이 두 플레이어 모두 활성화
         if (i == 0)
-            player_1turn = isTurn;
+            player_1turn = true;
         else if (i == 1)
-            player_2turn = isTurn;
+            player_2turn = true;
 
         if ((state.flags & PLAYER_FLAG_VALID) == 0)
             continue;
@@ -229,21 +228,12 @@ int GetMyPlayerId()
 
 bool CanControlPlayer(int playerIndex)
 {
-    // 오프라인(서버 연결X)일 때는 그냥 자유롭게 조작
+    // 오프라인(서버 연결X)일 때는 자유롭게 조작
     if (!g_isConnected)
         return true;
 
-    // 내 ID가 아닌 탱크는 조작 불가
-    if (g_myPlayerId != playerIndex)
-        return false;
-
-    // 내 ID는 맞는데, 현재 턴인지 확인
-    if (playerIndex == 0)
-        return player_1turn;
-    else if (playerIndex == 1)
-        return player_2turn;
-
-    return false;
+    // 온라인에서는 자신의 플레이어만 조작 가능
+    return g_myPlayerId == playerIndex;
 }
 
 void SendFirePacket(int playerIndex, float startX, float startY, float angle, float power, int shootMode)
@@ -323,16 +313,4 @@ void SendTerrainDelta(int x, int y, int radius, int shootMode)
     pkt.radius = radius;
     pkt.shoot_mode = shootMode;
     SendPacket((char*)&pkt, sizeof(pkt));
-}
-
-void SendTurnEndPacket()
-{
-    if (!g_isConnected)
-        return;
-
-    PKT_TURN_END pkt{};
-    pkt.type = PKT_TYPE_TURN_END;
-    pkt.playerId = g_myPlayerId;
-
-    SendPacket(reinterpret_cast<char*>(&pkt), sizeof(pkt));
 }

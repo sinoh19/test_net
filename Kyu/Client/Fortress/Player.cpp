@@ -428,17 +428,6 @@ void Fire::shoot_1(bool* player_1turn, bool* player_2turn,
 
         if (y > 840 || x > 1920 || x < 0)
         {
-            if (*player_1turn)
-            {
-                *player_2turn = true;
-                *player_1turn = false;
-            }
-            else if (*player_2turn)
-            {
-                *player_2turn = false;
-                *player_1turn = true;
-            }
-
             Speed = 0;
             power = 0;
             Time = 1;

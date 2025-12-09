@@ -35,7 +35,7 @@ bool player1_left = false;
 bool player2_left = true;
 
 bool player_1turn = true;
-bool player_2turn = false;
+bool player_2turn = true;
 
 bool p1isMoving = false;
 bool p2isMoving = false;
@@ -75,7 +75,7 @@ bool isStarted = false;
 bool isSelectedCharacter = false;
 bool isSelectedMap = false;
 
-int  select_map = 0;
+int select_map = 0;
 
 bool player1_select = true;
 bool player2_select = false;
