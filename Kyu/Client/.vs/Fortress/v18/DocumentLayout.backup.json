@@ -7,12 +7,16 @@
       "RelativeMoniker": "D:0:0:{3D9053DA-759D-49CB-86FE-21F9BF584AB8}|Fortress\\Fortress.vcxproj|solutionrelative:Fortress\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3D9053DA-759D-49CB-86FE-21F9BF584AB8}|Fortress\\Fortress.vcxproj|C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\ClientNet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{3D9053DA-759D-49CB-86FE-21F9BF584AB8}|Fortress\\Fortress.vcxproj|solutionrelative:Fortress\\ClientNet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{3D9053DA-759D-49CB-86FE-21F9BF584AB8}|Fortress\\Fortress.vcxproj|C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Fortress.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3D9053DA-759D-49CB-86FE-21F9BF584AB8}|Fortress\\Fortress.vcxproj|solutionrelative:Fortress\\Fortress.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3D9053DA-759D-49CB-86FE-21F9BF584AB8}|Fortress\\Fortress.vcxproj|C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{3D9053DA-759D-49CB-86FE-21F9BF584AB8}|Fortress\\Fortress.vcxproj|solutionrelative:Fortress\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3D9053DA-759D-49CB-86FE-21F9BF584AB8}|Fortress\\Fortress.vcxproj|C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\ClientNet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3D9053DA-759D-49CB-86FE-21F9BF584AB8}|Fortress\\Fortress.vcxproj|solutionrelative:Fortress\\ClientNet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3D9053DA-759D-49CB-86FE-21F9BF584AB8}|Fortress\\Fortress.vcxproj|C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Packet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -21,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{3D9053DA-759D-49CB-86FE-21F9BF584AB8}|Fortress\\Fortress.vcxproj|C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\ClientNet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{3D9053DA-759D-49CB-86FE-21F9BF584AB8}|Fortress\\Fortress.vcxproj|solutionrelative:Fortress\\ClientNet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3D9053DA-759D-49CB-86FE-21F9BF584AB8}|Fortress\\Fortress.vcxproj|C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Fortress.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{3D9053DA-759D-49CB-86FE-21F9BF584AB8}|Fortress\\Fortress.vcxproj|solutionrelative:Fortress\\Fortress.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3D9053DA-759D-49CB-86FE-21F9BF584AB8}|Fortress\\Fortress.vcxproj|C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -82,7 +82,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Packet.h",
               "DocumentMoniker": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Packet.h",
               "RelativeDocumentMoniker": "Fortress\\Packet.h",
@@ -106,7 +106,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "ClientNet.h",
               "DocumentMoniker": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\ClientNet.h",
               "RelativeDocumentMoniker": "Fortress\\ClientNet.h",
@@ -124,10 +124,9 @@
               "RelativeDocumentMoniker": "Fortress\\Player.cpp",
               "ToolTip": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Player.cpp",
               "RelativeToolTip": "Fortress\\Player.cpp",
-              "ViewState": "AgIAACwBAAAAAAAAAAAAADsBAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEcAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-11-19T21:22:25.709Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-19T21:22:25.709Z"
             },
             {
               "$type": "Document",
@@ -135,37 +134,37 @@
               "Title": "Game.cpp",
               "DocumentMoniker": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Game.cpp",
               "RelativeDocumentMoniker": "Fortress\\Game.cpp",
-              "ToolTip": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Game.cpp*",
-              "RelativeToolTip": "Fortress\\Game.cpp*",
-              "ViewState": "AgIAAGAEAAAAAAAAAAAiwHIEAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Game.cpp",
+              "RelativeToolTip": "Fortress\\Game.cpp",
+              "ViewState": "AgIAAKwHAAAAAAAAAAAAAMIHAABLAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-11-19T21:22:26.128Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "Fortress.cpp",
               "DocumentMoniker": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Fortress.cpp",
               "RelativeDocumentMoniker": "Fortress\\Fortress.cpp",
               "ToolTip": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Fortress.cpp",
               "RelativeToolTip": "Fortress\\Fortress.cpp",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAIIAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAADMAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-11-19T21:22:20.634Z"
+              "WhenOpened": "2025-11-19T21:22:20.634Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "ClientNet.cpp",
               "DocumentMoniker": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\ClientNet.cpp",
               "RelativeDocumentMoniker": "Fortress\\ClientNet.cpp",
-              "ToolTip": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\ClientNet.cpp*",
-              "RelativeToolTip": "Fortress\\ClientNet.cpp*",
+              "ToolTip": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\ClientNet.cpp",
+              "RelativeToolTip": "Fortress\\ClientNet.cpp",
               "ViewState": "AgIAADYAAAAAAAAAAAAAAFEAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-11-19T21:22:14.026Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-19T21:22:14.026Z"
             },
             {
               "$type": "Document",

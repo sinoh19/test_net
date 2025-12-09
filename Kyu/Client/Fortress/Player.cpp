@@ -43,24 +43,21 @@ void Player::set_pos(int p1_left, int p1_top)
 
 void Player::Move(bool isFire, int tank_mode)
 {
-    if (isFire)
-        return;
-
     if (GetAsyncKeyState(VK_LEFT))
     {
         if (tank_mode == 1)
         {
-            if (0 < left && Speed < 30)
+            if (0 < left)
                 left -= 3;
         }
         else if (tank_mode == 3)
         {
-            if (0 < left && Speed < 30)
+            if (0 < left)
                 left -= 1.5;
         }
         else if (tank_mode == 2)
         {
-            if (0 < left && Speed < 30)
+            if (0 < left)
                 left -= 4;
         }
     }
@@ -69,17 +66,17 @@ void Player::Move(bool isFire, int tank_mode)
     {
         if (tank_mode == 1)
         {
-            if (1920 > left + 20 && Speed < 30)
+            if (1920 > left + 20)
                 left += 3;
         }
         if (tank_mode == 3)
         {
-            if (1920 > left + 20 && Speed < 30)
+            if (1920 > left + 20)
                 left += 1.5;
         }
         if (tank_mode == 2)
         {
-            if (1920 > left + 20 && Speed < 30)
+            if (1920 > left + 20)
                 left += 4;
         }
     }

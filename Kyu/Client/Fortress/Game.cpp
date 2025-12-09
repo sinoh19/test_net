@@ -1880,6 +1880,8 @@ void reset(HWND hWnd)
 
 void DrawFrame(HWND hWnd, HDC hDC)
 {
+    const int kBackBufferWidth = 1600;
+    const int kBackBufferHeight = 800;
     HBITMAP hBackBufferBitmap;
 
     if (!isCharacter1Selected && !isCharacter2Selected && !isMapSelected)
@@ -1890,7 +1892,7 @@ void DrawFrame(HWND hWnd, HDC hDC)
         MemDC = CreateCompatibleDC(hDC);
         hBackBuffer = CreateCompatibleDC(hDC);
 
-        hBackBufferBitmap = CreateCompatibleBitmap(hDC, 1600, 800);
+        hBackBufferBitmap = CreateCompatibleBitmap(hDC, kBackBufferWidth, kBackBufferHeight);
         SelectObject(hBackBuffer, hBackBufferBitmap);
         SelectObject(MemDC, CMSelect);
 
@@ -1899,7 +1901,7 @@ void DrawFrame(HWND hWnd, HDC hDC)
 
         select_UI();
 
-        BitBlt(hDC, 0, 0, 600, 400, hBackBuffer, 0, 0, SRCCOPY);
+        BitBlt(hDC, 0, 0, kBackBufferWidth, kBackBufferHeight, hBackBuffer, 0, 0, SRCCOPY);
 
         DeleteObject(hBackBufferBitmap);
         DeleteDC(hBackBuffer);
@@ -1956,13 +1958,13 @@ void DrawFrame(HWND hWnd, HDC hDC)
         MemDC = CreateCompatibleDC(hDC);
         hBackBuffer = CreateCompatibleDC(hDC);
 
-        hBackBufferBitmap = CreateCompatibleBitmap(hDC, 1600, 800);
+        hBackBufferBitmap = CreateCompatibleBitmap(hDC, kBackBufferWidth, kBackBufferHeight);
         SelectObject(hBackBuffer, hBackBufferBitmap);
 
         // 배경
         SelectObject(MemDC, hBitmap);
-        GdiTransparentBlt(hBackBuffer, 0, 0, 1600, 800,
-            MemDC, 0, 0, 1600, 800, RGB(255, 0, 255));
+        GdiTransparentBlt(hBackBuffer, 0, 0, kBackBufferWidth, kBackBufferHeight,
+            MemDC, 0, 0, kBackBufferWidth, kBackBufferHeight, RGB(255, 0, 255));
 
         Draw_wind();
         Draw_tank();
@@ -1982,7 +1984,7 @@ void DrawFrame(HWND hWnd, HDC hDC)
         player_UI();
 
         // 실제 화면으로 복사
-        BitBlt(hDC, 0, 0, 600, 400, hBackBuffer,
+        BitBlt(hDC, 0, 0, kBackBufferWidth, kBackBufferHeight, hBackBuffer,
             0 + camera_x, 0 + camera_y, SRCCOPY);
 
         // 메모리 정리 (주의: hDC는 DeleteDC 하면 안됨!)
