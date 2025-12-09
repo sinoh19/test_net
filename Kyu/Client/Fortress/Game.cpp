@@ -1139,51 +1139,7 @@ void camera_turn()
 
 void Fire_turn()
 {
-    if (camera_mode == false)
-    {
-        if (A.isFire && player_1turn == true)
-        {
-            camera_x = x - 300;
-            camera_y = y - 200;
-            if (camera_x < 0)
-            {
-                camera_x = 0;
-            }
-            if (camera_y < 0)
-            {
-                camera_y = 0;
-            }
-            if (camera_x + 600 > 1600)
-            {
-                camera_x = 1000;
-            }
-            if (camera_y + 400 > 800)
-            {
-                camera_y = 400;
-            }
-        }
-        if (B.isFire && player_2turn == true)
-        {
-            camera_x = x - 300;
-            camera_y = y - 200;
-            if (camera_x < 0)
-            {
-                camera_x = 0;
-            }
-            if (camera_y < 0)
-            {
-                camera_y = 0;
-            }
-            if (camera_x + 600 > 1600)
-            {
-                camera_x = 1000;
-            }
-            if (camera_y + 400 > 800)
-            {
-                camera_y = 400;
-            }
-        }
-    }
+   
 }
 
 void InsertBitmap(HINSTANCE hInst) {
