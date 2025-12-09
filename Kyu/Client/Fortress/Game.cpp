@@ -931,7 +931,7 @@ void player_UI()
         A.Render_Fire(hBackBuffer);
         A.Render_Line(hBackBuffer, camera_x, camera_y);
         A.Render_PowerGauge(hBackBuffer, camera_x, camera_y);
-        A.Render_SpeedGauge(hBackBuffer, camera_x, camera_y);
+        /*A.Render_SpeedGauge(hBackBuffer, camera_x, camera_y);*/
     }
 
     if (player_2turn)
@@ -939,7 +939,7 @@ void player_UI()
         B.Render_Fire(hBackBuffer);
         B.Render_Line(hBackBuffer, camera_x, camera_y);
         B.Render_PowerGauge(hBackBuffer, camera_x, camera_y);
-        B.Render_SpeedGauge(hBackBuffer, camera_x, camera_y);
+       /* B.Render_SpeedGauge(hBackBuffer, camera_x, camera_y);*/
     }
 }
 
