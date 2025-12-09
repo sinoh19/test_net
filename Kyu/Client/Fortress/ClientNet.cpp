@@ -182,6 +182,9 @@ bool InitNetwork(const char* serverIp, int port)
     if (g_sock == INVALID_SOCKET)
         return false;
 
+
+    // 지연 없는 전송으로 이동/발사 보간 끊김을 줄인다.
+
     BOOL noDelay = TRUE;
     setsockopt(g_sock, IPPROTO_TCP, TCP_NODELAY, (const char*)&noDelay, sizeof(noDelay));
 
