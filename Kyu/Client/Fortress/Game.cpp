@@ -988,8 +988,7 @@ void physics(HWND hWnd)
                 // SendTerrainDelta((int)(x + 2.5f), (int)(y + 2.5f), 30, A.shoot_mode);
 
                 // ★ 내가 A(0번 플레이어)라면 턴 종료 패킷 전송
-                if (g_myPlayerId == 0)
-                    SendTurnEndPacket();
+               
 
                 // 탄 모드 처리
                 if (A.shoot_mode == 2 && A.shoot2 == true)
@@ -1031,8 +1030,7 @@ void physics(HWND hWnd)
                 // SendTerrainDelta((int)(x + 2.5f), (int)(y + 2.5f), 30, B.shoot_mode);
 
                 // ★ 내가 B(1번 플레이어)라면 턴 종료 패킷 전송
-                if (g_myPlayerId == 1)
-                    SendTurnEndPacket();
+            
 
                 if (B.shoot_mode == 2 && B.shoot2 == true)
                 {
@@ -1719,7 +1717,7 @@ void reset(HWND hWnd)
     wind_left = false;
     randNum = 0;
     player_1turn = true;
-    player_2turn = false;
+    player_2turn = true;
     player1_select = true;
     player2_select = false;
     player1_rect1 = false;
