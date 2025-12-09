@@ -138,8 +138,7 @@
               "RelativeToolTip": "Fortress\\Game.cpp",
               "ViewState": "AgIAAPYCAAAAAAAAAAAAABQDAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-11-19T21:22:26.128Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-19T21:22:26.128Z"
             },
             {
               "$type": "Document",
@@ -161,7 +160,7 @@
               "RelativeDocumentMoniker": "Fortress\\ClientNet.cpp",
               "ToolTip": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\ClientNet.cpp",
               "RelativeToolTip": "Fortress\\ClientNet.cpp",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAAFEAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAADIAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-11-19T21:22:14.026Z",
               "EditorCaption": ""
