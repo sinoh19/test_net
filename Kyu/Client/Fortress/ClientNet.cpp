@@ -43,6 +43,14 @@ static void ApplyStatePacket(const struct PKT_STATE& pkt)
     for (int i = 0; i < MAX_PLAYER; ++i)
     {
         const PlayerStateData& state = pkt.players[i];
+        // 턴 정보는 탱크 상태의 VALID 여부와 상관없이 바로 반영해서
+       // 서버가 전달하는 턴 순서대로 클라이언트 화면이 전환되도록 한다.
+        const bool isTurn = (state.flags & PLAYER_FLAG_MY_TURN) != 0;
+        if (i == 0)
+            player_1turn = isTurn;
+        else if (i == 1)
+            player_2turn = isTurn;
+
         if ((state.flags & PLAYER_FLAG_VALID) == 0)
             continue;
 
@@ -60,21 +68,18 @@ static void ApplyStatePacket(const struct PKT_STATE& pkt)
         const bool facingLeft = (state.flags & PLAYER_FLAG_FACING_LEFT) != 0;
         const bool moving = (state.flags & PLAYER_FLAG_MOVING) != 0;
         const bool animFiring = (state.flags & PLAYER_FLAG_FIRING_ANIM) != 0;
-        const bool isTurn = (state.flags & PLAYER_FLAG_MY_TURN) != 0;
         const bool projectileActive = (state.flags & PLAYER_FLAG_PROJECTILE_FIRED) != 0;
 
         if (i == 0)
         {
             player1_left = facingLeft;
             p1isMoving = moving;
-            player_1turn = isTurn;
             player1TankNumber = state.tankType;
         }
         else if (i == 1)
         {
             player2_left = facingLeft;
             p2isMoving = moving;
-            player_2turn = isTurn;
             player2TankNumber = state.tankType;
         }
 
