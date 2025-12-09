@@ -182,6 +182,9 @@ bool InitNetwork(const char* serverIp, int port)
     if (g_sock == INVALID_SOCKET)
         return false;
 
+    BOOL noDelay = TRUE;
+    setsockopt(g_sock, IPPROTO_TCP, TCP_NODELAY, (const char*)&noDelay, sizeof(noDelay));
+
     SOCKADDR_IN serveraddr;
     memset(&serveraddr, 0, sizeof(serveraddr));
     serveraddr.sin_family = AF_INET;
