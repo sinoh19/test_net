@@ -138,14 +138,17 @@ DWORD WINAPI ClientThread(LPVOID arg)
         {
             PKT_MOVE pkt{};
             memcpy(&pkt, buf, sizeof(PKT_MOVE));
-            if (pkt.playerId >= 0 && pkt.playerId < MAX_PLAYER)
+
+            // 클라이언트가 보낸 playerId와 상관없이 슬롯 기준으로 강제 매핑
+            const int playerId = slot;
+            if (playerId >= 0 && playerId < MAX_PLAYER)
             {
                 std::lock_guard<std::mutex> lock(g_stateLock);
-                g_playerStates[pkt.playerId] = pkt.state;
-                g_playerStates[pkt.playerId].flags |= PLAYER_FLAG_VALID;
+                g_playerStates[playerId] = pkt.state;
+                g_playerStates[playerId].flags |= PLAYER_FLAG_VALID;
 
                 // ★ 클라가 MY_TURN 플래그를 장난쳐도 서버는 무시
-                g_playerStates[pkt.playerId].flags &= ~PLAYER_FLAG_MY_TURN;
+                g_playerStates[playerId].flags &= ~PLAYER_FLAG_MY_TURN;
             }
             BroadcastState();
         }
@@ -153,6 +156,9 @@ DWORD WINAPI ClientThread(LPVOID arg)
         {
             PKT_FIRE pkt{};
             memcpy(&pkt, buf, sizeof(PKT_FIRE));
+
+            // 발사 패킷도 슬롯 기준으로 ID를 고정해 잘못된 제어를 방지
+            pkt.playerId = slot;
             BroadcastPacket((char*)&pkt, sizeof(pkt), INVALID_SOCKET);
             printf("발사 playerId=%d\n", pkt.playerId);
         }
