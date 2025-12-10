@@ -24,6 +24,7 @@ static PlayerStateData g_playerStates[MAX_PLAYER] = {};
 static bool g_projectileActive = false;
 static float g_projX = 0.0f;
 static float g_projY = 0.0f;
+static int   g_activeProjectileOwner = -1;
 static std::mutex g_stateLock;
 
 DWORD WINAPI ClientThread(LPVOID arg);
@@ -125,9 +126,23 @@ DWORD WINAPI ClientThread(LPVOID arg)
             g_playerStates[slot] = pkt.state;
             g_playerStates[slot].flags |= PLAYER_FLAG_VALID;
 
-            g_projectileActive = pkt.projectileActive;
-            g_projX = pkt.projX;
-            g_projY = pkt.projY;
+            // 각 플레이어의 포탄 활성/비활성 플래그를 명확히 반영한다.
+            // 발사한 플레이어의 패킷으로만 전역 포탄 상태를 업데이트해 다른 플레이어
+            // 입력이 활성 상태를 덮어쓰지 않도록 한다.
+            if (pkt.projectileActive)
+            {
+                g_projectileActive = true;
+                g_activeProjectileOwner = slot;
+                g_projX = pkt.projX;
+                g_projY = pkt.projY;
+            }
+            else if (g_activeProjectileOwner == slot)
+            {
+                g_projectileActive = false;
+                g_activeProjectileOwner = -1;
+                g_projX = pkt.projX;
+                g_projY = pkt.projY;
+            }
         }
         else if (type == PKT_TYPE_FIRE && recvlen >= sizeof(PKT_FIRE))
         {
