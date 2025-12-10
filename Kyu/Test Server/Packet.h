@@ -54,6 +54,9 @@ struct PKT_MOVE
     BYTE            type;
     int             playerId;
     PlayerStateData state;
+    bool            projectileActive;
+    float           projX;
+    float           projY;
 };
 
 struct PKT_FIRE

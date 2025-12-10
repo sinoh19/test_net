@@ -395,6 +395,9 @@ void SendPlayerState(int playerIndex, bool force)
     pkt.type = PKT_MOVE;
     pkt.playerId = playerIndex;
     pkt.state = state;
+    pkt.projectileActive = player->isFire;
+    pkt.projX = static_cast<float>(x);
+    pkt.projY = static_cast<float>(y);
 
     SendPacket(reinterpret_cast<char*>(&pkt), sizeof(struct PKT_MOVE));
 

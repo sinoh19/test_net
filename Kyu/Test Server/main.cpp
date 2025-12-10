@@ -21,6 +21,9 @@ struct ClientSlot
 
 static ClientSlot g_clients[MAX_CLIENT];
 static PlayerStateData g_playerStates[MAX_PLAYER] = {};
+static bool g_projectileActive = false;
+static float g_projX = 0.0f;
+static float g_projY = 0.0f;
 static std::mutex g_stateLock;
 
 DWORD WINAPI ClientThread(LPVOID arg);
@@ -121,6 +124,10 @@ DWORD WINAPI ClientThread(LPVOID arg)
             std::lock_guard<std::mutex> lock(g_stateLock);
             g_playerStates[slot] = pkt.state;
             g_playerStates[slot].flags |= PLAYER_FLAG_VALID;
+
+            g_projectileActive = pkt.projectileActive;
+            g_projX = pkt.projX;
+            g_projY = pkt.projY;
         }
         else if (type == PKT_TYPE_FIRE && recvlen >= sizeof(PKT_FIRE))
         {
@@ -172,6 +179,10 @@ void BroadcastState()
             pkt.players[i] = g_playerStates[i];
             pkt.players[i].flags &= ~PLAYER_FLAG_MY_TURN;
         }
+
+        pkt.projectileActive = g_projectileActive;
+        pkt.projX = g_projX;
+        pkt.projY = g_projY;
     }
 
     BroadcastPacket((char*)&pkt, sizeof(pkt));
