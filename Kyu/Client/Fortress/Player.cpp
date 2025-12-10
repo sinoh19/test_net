@@ -1,6 +1,12 @@
 ﻿#include "Player.h"
 #include "ClientNet.h"
 
+extern Fire A;
+extern Fire B;
+
+extern double x;
+extern double y;
+
 // ========================== Player ===========================
 
 Player::Player()
@@ -357,6 +363,7 @@ void Fire::set_ball()
         x = (left + 8.5) + (20 * sin(radianAngle));
         y = (top + 8.5) + (20 * cos(radianAngle));
     }
+
 }
 
 void Fire::Render_Fire(HDC hdc)
@@ -366,6 +373,11 @@ void Fire::Render_Fire(HDC hdc)
         isFire = true;
         isSpaceUp = false;   // ★ 트리거는 한 번 쓰고 바로 끈다
         spaceLock = true;
+
+        // 발사 시작 시 공유 좌표도 현재 포신 위치로 초기화해
+        // 이전 충돌 위치가 잠시 보이는 문제를 예방한다.
+        x = this->x;
+        y = this->y;
     }
 }
 
@@ -482,6 +494,9 @@ void Fire::shoot_2(bool* player_1turn, bool* player_2turn,
 
 void Fire::OnSpaceUp(int playerId)
 {
+    if (A.isFire || B.isFire)
+        return;
+
     if (isFire)
         return;
 
