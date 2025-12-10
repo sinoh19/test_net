@@ -10,6 +10,9 @@
 Fire A;
 Fire B;
 
+double x = 0.0;
+double y = 0.0;
+
 extern HINSTANCE g_hInst;
 extern int camera_x, camera_y;
 extern bool player1_select, player2_select;

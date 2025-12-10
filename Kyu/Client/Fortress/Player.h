@@ -39,6 +39,7 @@ public:
 
     // 식별자
     int    playerIndex;
+    bool   spaceLock;
 
     // 입력 상태
     bool isSpaceDown;
@@ -47,7 +48,6 @@ public:
     bool isleftDown;
     bool isleftPress;
     bool isleftUp;
-    bool spaceLock; // <-- 추가: 스페이스 잠금 플래그
 
 public:
     Player();
