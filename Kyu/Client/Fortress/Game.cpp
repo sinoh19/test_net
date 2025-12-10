@@ -926,7 +926,15 @@ void Draw_shoot()
 
 void player_UI()
 {
-    if (player_1turn)
+    // --- 내가 조종할 수 있는 플레이어만 UI 보이게 하기 ---
+    int myId = GetMyPlayerId();
+    bool connected = IsNetworkConnected();
+
+    // 로컬(싱글)일 땐 둘 다 보이고, 네트워크 연결 중이면 내 것만 보이게
+    bool showPlayer1 = !connected || myId == 0;
+    bool showPlayer2 = !connected || myId == 1;
+
+    if (player_1turn && showPlayer1)
     {
         A.Render_Fire(hBackBuffer);
         A.Render_Line(hBackBuffer, camera_x, camera_y);
@@ -934,12 +942,12 @@ void player_UI()
         /*A.Render_SpeedGauge(hBackBuffer, camera_x, camera_y);*/
     }
 
-    if (player_2turn)
+    if (player_2turn && showPlayer2)
     {
         B.Render_Fire(hBackBuffer);
         B.Render_Line(hBackBuffer, camera_x, camera_y);
         B.Render_PowerGauge(hBackBuffer, camera_x, camera_y);
-       /* B.Render_SpeedGauge(hBackBuffer, camera_x, camera_y);*/
+        /*B.Render_SpeedGauge(hBackBuffer, camera_x, camera_y);*/
     }
 }
 
@@ -1060,31 +1068,43 @@ void physics(HWND hWnd)
 
 void physics_Action(HWND hWnd)
 {
-    // --- 플레이어 A 처리 (항상 업데이트, 실시간) ---
-    A.Action(&x, &y, player1TankNumber);          // ★ 인자 3개
+    // --- 플레이어 A 처리 (포탄, 각도, 이동, 네트워크 동기화) ---
+    A.Action(&x, &y, player1TankNumber);
     A.set_radian();
+
     if (CanControlPlayer(0))
         A.Move(A.isFire, player1TankNumber);
+
     A.set_ball();
+
     if (CanControlPlayer(0))
         A.Update(A.isFire, hWnd);
+
     A.set_pos(A.left, A.top);
+
     if (CanControlPlayer(0))
-        SendPlayerState(0);
+        SendPlayerState(0);       // A 상태 서버로 전송
+
     if (A.isFire)
-        A.Hit(B.left, B.top, &B.HP, player1TankNumber);  // ★ 타겟 HP만 넘김
+        A.Hit(B.left, B.top, &B.HP, player1TankNumber);  // B HP 감소 체크
 
     // --- 플레이어 B 처리 ---
     B.Action(&x, &y, player2TankNumber);
     B.set_radian();
+
     if (CanControlPlayer(1))
         B.Move(B.isFire, player2TankNumber);
+
     B.set_ball();
+
     if (CanControlPlayer(1))
         B.Update(B.isFire, hWnd);
+
     B.set_pos(B.left, B.top);
+
     if (CanControlPlayer(1))
-        SendPlayerState(1);
+        SendPlayerState(1);       // B 상태 서버로 전송
+
     if (B.isFire)
         B.Hit(A.left, A.top, &A.HP, player2TankNumber);
 }
@@ -1323,78 +1343,51 @@ void wind(HWND hWnd)
 {
     if (wind_left && A.isFire)
     {
-
-        physics_Action(hWnd); // 탄환의 움직임 물리처리
+        physics_Action(hWnd); // 물리 처리
         if (A.angle > 90)
-        {
             A.power += 0.04 * A.Time;
-        }
         else if (A.angle < 90)
-        {
             A.power -= 0.04 * A.Time;
-        }
         else
-        {
             A.x -= 0.5;
-        }
     }
     else if (wind_right && A.isFire)
     {
-
-        physics_Action(hWnd); // 탄환의 움직임 물리처리
+        physics_Action(hWnd);
         if (A.angle > 90)
-        {
             A.power -= 0.04 * A.Time;
-        }
         else if (A.angle < 90)
-        {
             A.power += 0.04 * A.Time;
-        }
         else
-        {
             A.x += 0.5;
-        }
     }
     else if (wind_left && B.isFire)
     {
-
-        physics_Action(hWnd); // 탄환의 움직임 물리처리
+        physics_Action(hWnd);
         if (B.angle > 90)
-        {
             B.power += 0.04 * B.Time;
-        }
         else if (B.angle < 90)
-        {
             B.power -= 0.04 * B.Time;
-        }
         else
-        {
             B.x -= 0.5;
-        }
     }
     else if (wind_right && B.isFire)
     {
-
-        physics_Action(hWnd); // 탄환의 움직임 물리처리
+        physics_Action(hWnd);
         if (B.angle > 90)
-        {
             B.power -= 0.04 * B.Time;
-        }
         else if (B.angle < 90)
-        {
             B.power += 0.04 * B.Time;
-        }
         else
-        {
             B.x += 0.5;
-        }
     }
     else
     {
-        physics_Action(hWnd); // 탄환의 움직임 물리처리
+        physics_Action(hWnd);
     }
-    Fire_turn(); // 탄환 추적 카메라
-    camera_turn(); // 플레이어 추적 카메라
+
+    Fire_turn();   // 포탄 애니메이션/상태
+    camera_turn(); // 카메라 위치 갱신
 }
 
 void make_random()
@@ -1832,6 +1825,9 @@ void DrawFrame(HWND hWnd, HDC hDC)
         {
             if (!isStarted)
             {
+                // ★ 기존 비트맵 있으면 먼저 삭제
+                if (hBitmap) { DeleteObject(hBitmap); hBitmap = NULL; }
+
                 hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP3));
                 SetTimer(hWnd, 1, 10, NULL);
                 SetTimer(hWnd, 2, 30, NULL);
@@ -1845,6 +1841,9 @@ void DrawFrame(HWND hWnd, HDC hDC)
         {
             if (!isStarted)
             {
+                // ★
+                if (hBitmap) { DeleteObject(hBitmap); hBitmap = NULL; }
+
                 hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP9));
                 SetTimer(hWnd, 1, 10, NULL);
                 SetTimer(hWnd, 2, 30, NULL);
@@ -1858,6 +1857,9 @@ void DrawFrame(HWND hWnd, HDC hDC)
         {
             if (!isStarted)
             {
+                // ★
+                if (hBitmap) { DeleteObject(hBitmap); hBitmap = NULL; }
+
                 hBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP45));
                 SetTimer(hWnd, 1, 10, NULL);
                 SetTimer(hWnd, 2, 30, NULL);
@@ -1889,10 +1891,17 @@ void DrawFrame(HWND hWnd, HDC hDC)
         B.Render_HP(hBackBuffer, B.left, B.top);
 
         // UI
-        UI = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP4));
+        if (UI == NULL)
+            UI = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP4));
+
         SelectObject(MemDC, UI);
-        GdiTransparentBlt(hBackBuffer, camera_x, camera_y - 40, 600, 440,
-            MemDC, 0, 0, 600, 450, RGB(255, 0, 255));
+        GdiTransparentBlt(
+            hBackBuffer,
+            camera_x, camera_y - 40, 600, 440,
+            MemDC,
+            0, 0, 600, 450,
+            RGB(255, 0, 255)
+        );
 
         Draw_skill();
         player_UI();
@@ -2204,7 +2213,7 @@ void OnKeyDown(HWND hWnd, WPARAM wParam)
 
 void ApplyTerrainDelta(const PKT_TERRAIN_DELTA& pkt)
 {
-    // 서버가 준 좌표 기준으로 지형 파괴
+    // 서버에서 받은 지형 파괴 정보 적용
     int cx = pkt.x;
     int cy = pkt.y;
     int r = pkt.radius;
@@ -2224,6 +2233,6 @@ void ApplyTerrainDelta(const PKT_TERRAIN_DELTA& pkt)
     SelectObject(hdcMem, oldBmp);
     DeleteDC(hdcMem);
 
-    // 지형 바뀌었으니 화면 갱신
-    InvalidateRect(g_hWnd, nullptr, FALSE); // g_hWnd 전역이면
+    // 화면 갱신 요청
+    InvalidateRect(g_hWnd, nullptr, FALSE);
 }

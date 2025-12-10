@@ -23,6 +23,7 @@ Player::Player()
     , HP(100)
     , HP_MAX(100)
     , power_now(0)
+    , playerIndex(-1)
 {
 }
 
@@ -309,6 +310,8 @@ Fire::Fire()
 
 void Fire::ResetGauge()
 {
+    const bool wasFiring = isFire;
+
     Speed = 0;
     power = 0;
     power_now = 0;
@@ -320,6 +323,10 @@ void Fire::ResetGauge()
     shoot_mode = 0;
 
     set_ball();
+    if (wasFiring && playerIndex >= 0 && CanControlPlayer(playerIndex))
+    {
+        SendPlayerState(playerIndex, true);
+    }
 }
 
 void Fire::set_ball()
@@ -334,7 +341,7 @@ void Fire::set_ball()
 
 void Fire::Render_Fire(HDC hdc)
 {
-    if (isSpaceUp)
+    if (isSpaceUp && !isFire)
     {
         isFire = true;
         isSpaceUp = false;   // ★ 트리거는 한 번 쓰고 바로 끈다
@@ -375,6 +382,8 @@ void Fire::Action(double* ball_x, double* ball_y, int tank_mode)
         {
             ResetGauge();
             set_ball();
+            if (playerIndex >= 0 && CanControlPlayer(playerIndex))
+                SendPlayerState(playerIndex, true);
             return;
         }
     }
@@ -452,6 +461,10 @@ void Fire::shoot_2(bool* player_1turn, bool* player_2turn,
 
 void Fire::OnSpaceUp(int playerId)
 {
+    if (isFire)
+        return;
+
+    playerIndex = playerId;
     isSpaceUp = true;
     set_ball();
     SendFirePacket(playerId, static_cast<float>(left), static_cast<float>(top),

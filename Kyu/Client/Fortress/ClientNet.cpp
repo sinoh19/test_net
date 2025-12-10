@@ -57,9 +57,24 @@ static void ApplyStatePacket(const struct PKT_STATE& pkt)
         if (!player)
             continue;
 
-        player->left = state.left;
-        player->top = state.top;
-        player->angle = state.angle;
+        const auto lerp = [](double current, double target)
+        {
+            return current + (target - current) * 0.35;
+        };
+
+        if (CanControlPlayer(i))
+        {
+            player->left = state.left;
+            player->top = state.top;
+            player->angle = state.angle;
+        }
+        else
+        {
+            player->left = lerp(player->left, state.left);
+            player->top = lerp(player->top, state.top);
+            player->angle = lerp(player->angle, state.angle);
+        }
+
         player->HP = state.hp;
         player->power = state.power;
         player->shoot_mode = state.shoot_mode;
@@ -258,9 +273,15 @@ void SendFirePacket(int playerIndex, float startX, float startY, float angle, fl
     SendPacket(reinterpret_cast<char*>(&pkt), sizeof(struct PKT_FIRE));
 }
 
-void SendPlayerState(int playerIndex)
+void SendPlayerState(int playerIndex, bool force)
 {
     if (!g_isConnected)
+        return;
+
+    static DWORD lastSendTick[MAX_PLAYER] = { 0, 0 };
+    DWORD now = GetTickCount();
+
+    if (!force && now - lastSendTick[playerIndex] < 30)
         return;
 
     Fire* player = GetPlayerById(playerIndex);
@@ -295,6 +316,8 @@ void SendPlayerState(int playerIndex)
     pkt.state = state;
 
     SendPacket(reinterpret_cast<char*>(&pkt), sizeof(struct PKT_MOVE));
+
+    lastSendTick[playerIndex] = now;
 }
 
 void CloseNetwork()

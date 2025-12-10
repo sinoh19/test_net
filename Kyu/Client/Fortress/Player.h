@@ -37,6 +37,8 @@ public:
     int    Speed_Max;
     double power_now;
 
+    int    playerIndex;
+
     // 입력 상태
     bool isSpaceDown;
     bool isSpacePress;

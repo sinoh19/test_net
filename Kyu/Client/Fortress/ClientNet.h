@@ -12,5 +12,5 @@ int  GetMyPlayerId();
 bool CanControlPlayer(int playerIndex);
 
 void SendPacket(const char* buf, int len);
-void SendPlayerState(int playerIndex);
+void SendPlayerState(int playerIndex, bool force = false);
 void SendFirePacket(int playerIndex, float startX, float startY, float angle, float power, int shootMode);

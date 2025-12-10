@@ -80,6 +80,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         // 캐릭터/맵 선택 화면 비트맵 로딩
         InsertBitmap(g_hInst);
         CMSelect = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP114));
+        UI = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP4));
+        A.playerIndex = 0;
+        B.playerIndex = 1;
         break;
 
     case WM_PAINT:
