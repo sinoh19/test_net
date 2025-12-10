@@ -27,6 +27,8 @@ extern HBITMAP hBitmap;
 
 double x = 0.0;
 double y = 0.0;
+double lastImpactX = -20.0;
+double lastImpactY = -20.0;
 
 bool wind_right = false;
 bool wind_left = false;
@@ -1055,6 +1057,8 @@ void physics(HWND hWnd)
         {
             if (GetPixelColor(hBitmap, x + 2.5, y + 2.5) != TARGET_COLOR)
             {
+                lastImpactX = x;
+                lastImpactY = y;
                 isShellCollision = true;
                 SetTimer(hWnd, 9, 60, NULL);
                 SetPixelColor(hBitmap, x + 2.5, y + 2.5, TARGET_COLOR);
@@ -1102,6 +1106,8 @@ void physics(HWND hWnd)
         {
             if (GetPixelColor(hBitmap, x + 2.5, y + 2.5) != TARGET_COLOR)
             {
+                lastImpactX = x;
+                lastImpactY = y;
                 isShellCollision = true;
                 SetTimer(hWnd, 9, 60, NULL);
                 SetPixelColor(hBitmap, x + 2.5, y + 2.5, TARGET_COLOR);
@@ -2204,8 +2210,8 @@ void OnTimer(HWND hWnd, WPARAM wParam)
     else if (wParam == 9) {
         if (xFPos[0] == -20 && yFPos[0] == -20) {
             for (int i = 0; i < 12; ++i) {
-                xFPos[i] = x;
-                yFPos[i] = y;
+                xFPos[i] = static_cast<int>(lastImpactX);
+                yFPos[i] = static_cast<int>(lastImpactY);
             }
         }
 
@@ -2214,6 +2220,8 @@ void OnTimer(HWND hWnd, WPARAM wParam)
                 xFPos[i] = -20;
                 yFPos[i] = -20;
             }
+            lastImpactX = -20.0;
+            lastImpactY = -20.0;
             isShellCollision = false;
             KillTimer(hWnd, 9);
         }
