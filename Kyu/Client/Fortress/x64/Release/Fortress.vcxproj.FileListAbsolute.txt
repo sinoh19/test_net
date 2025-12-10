@@ -1,2 +1,3 @@
 C:\Users\qkrdl\Desktop\제출용\Fortress\x64\Release\Fortress.exe
 C:\Users\qkrdl\Desktop\윈도우 프로그래밍\제출용\Fortress\x64\Release\Fortress.exe
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\x64\Release\Fortress.exe
