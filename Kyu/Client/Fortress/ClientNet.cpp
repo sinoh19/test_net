@@ -17,6 +17,21 @@ static HANDLE g_recvThread = NULL;
 static bool   g_isConnected = false;
 int    g_myPlayerId = -1;
 
+struct LastFirePacket
+{
+    bool  hasData = false;
+    struct PKT_FIRE pkt{};
+    DWORD tick = 0;
+    UINT32 inputVersion = 0;
+};
+
+static LastFirePacket g_lastFire[MAX_PLAYER];
+static UINT32         g_fireInputVersion[MAX_PLAYER] = {};
+static bool           g_hasFireInput[MAX_PLAYER] = {};
+static float          g_lastAngle[MAX_PLAYER] = {};
+static float          g_lastPower[MAX_PLAYER] = {};
+static int            g_lastShootMode[MAX_PLAYER] = {};
+
 extern Fire A;
 extern Fire B;
 extern bool player1_left;
@@ -53,6 +68,19 @@ static void ApplyStatePacket(const struct PKT_STATE& pkt)
 
         if ((state.flags & PLAYER_FLAG_VALID) == 0)
             continue;
+
+        if (!g_hasFireInput[i]
+            || g_lastAngle[i] != state.angle
+            || g_lastPower[i] != state.power
+            || g_lastShootMode[i] != state.shoot_mode)
+        {
+            g_fireInputVersion[i]++;
+            g_hasFireInput[i] = true;
+            g_lastAngle[i] = state.angle;
+            g_lastPower[i] = state.power;
+            g_lastShootMode[i] = state.shoot_mode;
+        }
+
 
         Fire* player = GetPlayerById(i);
         if (!player)
@@ -115,6 +143,23 @@ static void ApplyFirePacket(const struct PKT_FIRE& pkt)
     if (!player)
         return;
 
+    if (player->isFire)
+        return;
+
+    LastFirePacket& cache = g_lastFire[pkt.playerId];
+    if (cache.hasData)
+    {
+        const bool samePayload = memcmp(&cache.pkt, &pkt, sizeof(PKT_FIRE)) == 0;
+        const bool sameInput = cache.inputVersion == g_fireInputVersion[pkt.playerId];
+        if (samePayload && sameInput)
+            return; // 입력 변화 없이 반복 수신된 동일 패킷은 무시
+    }
+
+    // 이미 발사 중인 탄이 있을 때 중복으로 새 발사를 만들지 않는다.
+    if (player->isFire)
+        return;
+
+
     player->left = pkt.startX;
     player->top = pkt.startY;
     player->angle = pkt.angle;
@@ -122,6 +167,11 @@ static void ApplyFirePacket(const struct PKT_FIRE& pkt)
     player->shoot_mode = pkt.shoot_mode;
     player->set_ball();
     player->isFire = true;
+
+    cache.hasData = true;
+    cache.pkt = pkt;
+    cache.tick = GetTickCount();
+    cache.inputVersion = g_fireInputVersion[pkt.playerId];
 }
 
 DWORD WINAPI RecvThread(LPVOID)
