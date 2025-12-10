@@ -4,9 +4,6 @@
 extern Fire A;
 extern Fire B;
 
-extern double x;
-extern double y;
-
 // ========================== Player ===========================
 
 Player::Player()

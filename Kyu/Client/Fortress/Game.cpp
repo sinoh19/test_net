@@ -25,9 +25,6 @@ extern int g_myPlayerId;
 extern int camera_x, camera_y;
 extern HBITMAP hBitmap;
 
-double x = 0.0;
-double y = 0.0;
-
 bool wind_right = false;
 bool wind_left = false;
 
@@ -938,13 +935,13 @@ void Draw_shoot()
             AitemPowerup = true;
             SelectObject(MemDC, sBullet1[bulletAni]);
             if (bulletAni == 0)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 11, 9, MemDC, 0, 0, 11, 9, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, A.x - 3.5, A.y - 3.5, 11, 9, MemDC, 0, 0, 11, 9, RGB(255, 0, 255)); // 수정한 부분
             else if (bulletAni == 1)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 11, 11, MemDC, 0, 0, 11, 11, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, A.x - 3.5, A.y - 3.5, 11, 11, MemDC, 0, 0, 11, 11, RGB(255, 0, 255)); // 수정한 부분
             else if (bulletAni == 2)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 11, 11, MemDC, 0, 0, 11, 11, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, A.x - 3.5, A.y - 3.5, 11, 11, MemDC, 0, 0, 11, 11, RGB(255, 0, 255)); // 수정한 부분
             else if (bulletAni == 3)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 11, 11, MemDC, 0, 0, 11, 11, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, A.x - 3.5, A.y - 3.5, 11, 11, MemDC, 0, 0, 11, 11, RGB(255, 0, 255)); // 수정한 부분
         }
         else {
             if (A.shoot_mode == 2) {
@@ -952,27 +949,28 @@ void Draw_shoot()
             }
             SelectObject(MemDC, bullet1[bulletAni]);//버그 진입하는데 비트맵을 못가져옴?? 왜일까...
             if (bulletAni == 0)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 18, 17, MemDC, 0, 0, 18, 17, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, A.x - 3.5, A.y - 3.5, 18, 17, MemDC, 0, 0, 18, 17, RGB(255, 0, 255)); // 수정한 부분
             else if (bulletAni == 1)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 18, 17, MemDC, 0, 0, 18, 17, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, A.x - 3.5, A.y - 3.5, 18, 17, MemDC, 0, 0, 18, 17, RGB(255, 0, 255)); // 수정한 부분
             else if (bulletAni == 2)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 17, 18, MemDC, 0, 0, 17, 18, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, A.x - 3.5, A.y - 3.5, 17, 18, MemDC, 0, 0, 17, 18, RGB(255, 0, 255)); // 수정한 부분
             else if (bulletAni == 3)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 18, 17, MemDC, 0, 0, 18, 17, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, A.x - 3.5, A.y - 3.5, 18, 17, MemDC, 0, 0, 18, 17, RGB(255, 0, 255)); // 수정한 부분
         }
     }
-    else if (B.isFire) {
+
+    if (B.isFire) {
         if (B.shoot_mode == 1 && B.shoot1 == true) {
             BitemPowerup = true;
             SelectObject(MemDC, sBullet2[bulletAni]);
             if (bulletAni == 0)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 9, 12, MemDC, 0, 0, 9, 12, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, B.x - 3.5, B.y - 3.5, 9, 12, MemDC, 0, 0, 9, 12, RGB(255, 0, 255)); // 수정한 부분
             else if (bulletAni == 1)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 13, 9, MemDC, 0, 0, 13, 9, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, B.x - 3.5, B.y - 3.5, 13, 9, MemDC, 0, 0, 13, 9, RGB(255, 0, 255)); // 수정한 부분
             else if (bulletAni == 2)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 9, 11, MemDC, 0, 0, 9, 11, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, B.x - 3.5, B.y - 3.5, 9, 11, MemDC, 0, 0, 9, 11, RGB(255, 0, 255)); // 수정한 부분
             else if (bulletAni == 3)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 18, 9, MemDC, 0, 0, 18, 9, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, B.x - 3.5, B.y - 3.5, 18, 9, MemDC, 0, 0, 18, 9, RGB(255, 0, 255)); // 수정한 부분
         }
         else {
             if (B.shoot_mode == 2) {
@@ -980,13 +978,13 @@ void Draw_shoot()
             }
             SelectObject(MemDC, bullet2[bulletAni]);//버그 진입하는데 비트맵을 못가져옴?? 왜일까...
             if (bulletAni == 0)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 13, 15, MemDC, 0, 0, 13, 15, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, B.x - 3.5, B.y - 3.5, 13, 15, MemDC, 0, 0, 13, 15, RGB(255, 0, 255)); // 수정한 부분
             else if (bulletAni == 1)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 17, 13, MemDC, 0, 0, 17, 13, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, B.x - 3.5, B.y - 3.5, 17, 13, MemDC, 0, 0, 17, 13, RGB(255, 0, 255)); // 수정한 부분
             else if (bulletAni == 2)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 13, 18, MemDC, 0, 0, 13, 18, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, B.x - 3.5, B.y - 3.5, 13, 18, MemDC, 0, 0, 13, 18, RGB(255, 0, 255)); // 수정한 부분
             else if (bulletAni == 3)
-                GdiTransparentBlt(hBackBuffer, x - 3.5, y - 3.5, 23, 13, MemDC, 0, 0, 23, 13, RGB(255, 0, 255)); // 수정한 부분
+                GdiTransparentBlt(hBackBuffer, B.x - 3.5, B.y - 3.5, 23, 13, MemDC, 0, 0, 23, 13, RGB(255, 0, 255)); // 수정한 부분
         }
     }
 }
@@ -1051,18 +1049,18 @@ void physics(HWND hWnd)
     // --- 포탄 A ---
     if (A.isFire == true)
     {
-        if (y > 0 && x > 0 && x < 1600 && y < 800)
+        if (A.y > 0 && A.x > 0 && A.x < 1600 && A.y < 800)
         {
-            if (GetPixelColor(hBitmap, x + 2.5, y + 2.5) != TARGET_COLOR)
+            if (GetPixelColor(hBitmap, A.x + 2.5, A.y + 2.5) != TARGET_COLOR)
             {
                 isShellCollision = true;
                 SetTimer(hWnd, 9, 60, NULL);
-                SetPixelColor(hBitmap, x + 2.5, y + 2.5, TARGET_COLOR);
+                SetPixelColor(hBitmap, A.x + 2.5, A.y + 2.5, TARGET_COLOR);
 
                 // 지형 파괴 서버 동기화 (내가 조작 중일 때만 중복 전송 방지)
                 if (CanControlPlayer(0) && IsNetworkConnected())
                 {
-                    SendTerrainDelta((int)(x + 2.5f), (int)(y + 2.5f),
+                    SendTerrainDelta((int)(A.x + 2.5f), (int)(A.y + 2.5f),
                         (A.shoot_mode == 1 && A.shoot1) ? 45 : 30,
                         A.shoot_mode);
                 }
@@ -1073,7 +1071,7 @@ void physics(HWND hWnd)
                 // 탄 모드 처리
                 if (A.shoot_mode == 2 && A.shoot2 == true)
                 {
-                    A.set_pos(x - 10, y);
+                    A.set_pos(A.x - 10, A.y);
                     A.shoot_mode = 0;
                     A.shoot2 = false;
                 }
@@ -1085,30 +1083,28 @@ void physics(HWND hWnd)
 
                 // ★ 게이지/스페이스 상태 전부 초기화
                 A.ResetGauge();
-                B.ResetGauge();
 
-                // 포탄 위치 초기화 (필요하다면 둘 다)
+                // 포탄 위치 초기화
                 A.set_ball();
-                // B.set_ball();  // 필요 없으면 생략
 
                 make_random();
             }
         }
     }
     // --- 포탄 B ---
-    else if (B.isFire == true)
+    if (B.isFire == true)
     {
-        if (y > 0 && x > 0 && x < 1600 && y < 800)
+        if (B.y > 0 && B.x > 0 && B.x < 1600 && B.y < 800)
         {
-            if (GetPixelColor(hBitmap, x + 2.5, y + 2.5) != TARGET_COLOR)
+            if (GetPixelColor(hBitmap, B.x + 2.5, B.y + 2.5) != TARGET_COLOR)
             {
                 isShellCollision = true;
                 SetTimer(hWnd, 9, 60, NULL);
-                SetPixelColor(hBitmap, x + 2.5, y + 2.5, TARGET_COLOR);
+                SetPixelColor(hBitmap, B.x + 2.5, B.y + 2.5, TARGET_COLOR);
 
                 if (CanControlPlayer(1) && IsNetworkConnected())
                 {
-                    SendTerrainDelta((int)(x + 2.5f), (int)(y + 2.5f),
+                    SendTerrainDelta((int)(B.x + 2.5f), (int)(B.y + 2.5f),
                         (B.shoot_mode == 1 && B.shoot1) ? 45 : 30,
                         B.shoot_mode);
                 }
@@ -1118,7 +1114,7 @@ void physics(HWND hWnd)
 
                 if (B.shoot_mode == 2 && B.shoot2 == true)
                 {
-                    B.set_pos(x - 10, y);
+                    B.set_pos(B.x - 10, B.y);
                     B.shoot_mode = 0;
                     B.shoot2 = false;
                 }
@@ -1128,7 +1124,6 @@ void physics(HWND hWnd)
                     B.shoot_mode = 0;
                 }
 
-                A.ResetGauge();
                 B.ResetGauge();
 
                 // 포탄 위치 초기화
@@ -1145,7 +1140,7 @@ void physics(HWND hWnd)
 void physics_Action(HWND hWnd)
 {
     // --- 플레이어 A 처리 (포탄, 각도, 이동, 네트워크 동기화) ---
-    A.Action(&x, &y, player1TankNumber);
+    A.Action(&A.x, &A.y, player1TankNumber);
     A.set_radian();
 
     if (CanControlPlayer(0))
@@ -1165,7 +1160,7 @@ void physics_Action(HWND hWnd)
         A.Hit(B.left, B.top, &B.HP, player1TankNumber);  // B HP 감소 체크
 
     // --- 플레이어 B 처리 ---
-    B.Action(&x, &y, player2TankNumber);
+    B.Action(&B.x, &B.y, player2TankNumber);
     B.set_radian();
 
     if (CanControlPlayer(1))
@@ -2109,7 +2104,6 @@ extern int map13WindAni, map2WindAni;
 extern bool wind_left, wind_right;
 extern int xPos[10], yPos[10], xSet[10];
 extern int select_map;
-extern double x, y;
 extern bool isShellCollision;
 extern int xFPos[12], yFPos[12];
 
