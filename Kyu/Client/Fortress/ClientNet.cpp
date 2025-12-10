@@ -103,16 +103,10 @@ static void ApplyStatePacket(const struct PKT_STATE& pkt)
     isFired = firingAnim;
 
 
-    if (pkt.projectileActive)
-    {
-        A.isFire = true;           // 네가 쓰는 Fire A 기준
-        A.x = pkt.projX;
-        A.y = pkt.projY;
-    }
-    else
-    {
-        A.isFire = false;
-    }
+    // 서버에서 별도의 포탄 좌표를 내려주기 전까지는
+    // PKT_STATE로 포탄 상태를 강제로 끄지 않는다.
+    // (projectileActive가 기본값(false)인 상태로 계속 내려와
+    // 발사가 즉시 리셋되는 문제를 막기 위함)
 }
 
 static void ApplyFirePacket(const struct PKT_FIRE& pkt)

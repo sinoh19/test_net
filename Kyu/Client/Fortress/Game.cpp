@@ -992,8 +992,13 @@ void physics(HWND hWnd)
                 SetTimer(hWnd, 9, 60, NULL);
                 SetPixelColor(hBitmap, x + 2.5, y + 2.5, TARGET_COLOR);
 
-                // (선택) 지형 파괴 서버 동기화용
-                // SendTerrainDelta((int)(x + 2.5f), (int)(y + 2.5f), 30, A.shoot_mode);
+                // 지형 파괴 서버 동기화 (내가 조작 중일 때만 중복 전송 방지)
+                if (CanControlPlayer(0) && IsNetworkConnected())
+                {
+                    SendTerrainDelta((int)(x + 2.5f), (int)(y + 2.5f),
+                        (A.shoot_mode == 1 && A.shoot1) ? 45 : 30,
+                        A.shoot_mode);
+                }
 
                 // ★ 내가 A(0번 플레이어)라면 턴 종료 패킷 전송
                
@@ -1034,8 +1039,12 @@ void physics(HWND hWnd)
                 SetTimer(hWnd, 9, 60, NULL);
                 SetPixelColor(hBitmap, x + 2.5, y + 2.5, TARGET_COLOR);
 
-                // (선택) 지형 파괴 서버 동기화용
-                // SendTerrainDelta((int)(x + 2.5f), (int)(y + 2.5f), 30, B.shoot_mode);
+                if (CanControlPlayer(1) && IsNetworkConnected())
+                {
+                    SendTerrainDelta((int)(x + 2.5f), (int)(y + 2.5f),
+                        (B.shoot_mode == 1 && B.shoot1) ? 45 : 30,
+                        B.shoot_mode);
+                }
 
                 // ★ 내가 B(1번 플레이어)라면 턴 종료 패킷 전송
             
