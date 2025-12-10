@@ -24,8 +24,8 @@ extern Fire A;
 extern Fire B;
 
 // 탄환 위치
-extern double projectileX[MAX_PLAYER];
-extern double projectileY[MAX_PLAYER];
+extern double x;
+extern double y;
 
 // 바람, 카메라, 턴 등 상태
 extern bool wind_right;

@@ -81,9 +81,9 @@ struct PKT_STATE
     int  playerCount;
     PlayerStateData players[MAX_PLAYER];
 
-    bool  projectileActive[MAX_PLAYER];
-    float projX[MAX_PLAYER];
-    float projY[MAX_PLAYER];
+    bool  projectileActive;
+    float projX;
+    float projY;
 };
 
 struct PKT_TURN_END

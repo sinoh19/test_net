@@ -21,9 +21,10 @@ struct ClientSlot
 
 static ClientSlot g_clients[MAX_CLIENT];
 static PlayerStateData g_playerStates[MAX_PLAYER] = {};
-static bool g_projectileActive[MAX_PLAYER] = {};
-static float g_projX[MAX_PLAYER] = {};
-static float g_projY[MAX_PLAYER] = {};
+static bool g_projectileActive = false;
+static float g_projX = 0.0f;
+static float g_projY = 0.0f;
+static int   g_activeProjectileOwner = -1;
 static std::mutex g_stateLock;
 
 DWORD WINAPI ClientThread(LPVOID arg);
@@ -124,9 +125,24 @@ DWORD WINAPI ClientThread(LPVOID arg)
             std::lock_guard<std::mutex> lock(g_stateLock);
             g_playerStates[slot] = pkt.state;
             g_playerStates[slot].flags |= PLAYER_FLAG_VALID;
-            g_projectileActive[slot] = pkt.projectileActive;
-            g_projX[slot] = pkt.projX;
-            g_projY[slot] = pkt.projY;
+
+            // 각 플레이어의 포탄 활성/비활성 플래그를 명확히 반영한다.
+            // 발사한 플레이어의 패킷으로만 전역 포탄 상태를 업데이트해 다른 플레이어
+            // 입력이 활성 상태를 덮어쓰지 않도록 한다.
+            if (pkt.projectileActive)
+            {
+                g_projectileActive = true;
+                g_activeProjectileOwner = slot;
+                g_projX = pkt.projX;
+                g_projY = pkt.projY;
+            }
+            else if (g_activeProjectileOwner == slot)
+            {
+                g_projectileActive = false;
+                g_activeProjectileOwner = -1;
+                g_projX = pkt.projX;
+                g_projY = pkt.projY;
+            }
         }
         else if (type == PKT_TYPE_FIRE && recvlen >= sizeof(PKT_FIRE))
         {
@@ -147,9 +163,6 @@ DWORD WINAPI ClientThread(LPVOID arg)
 
     std::lock_guard<std::mutex> lock(g_stateLock);
     memset(&g_playerStates[slot], 0, sizeof(PlayerStateData));
-    g_projectileActive[slot] = false;
-    g_projX[slot] = 0.0f;
-    g_projY[slot] = 0.0f;
 
     return 0;
 }
@@ -182,12 +195,9 @@ void BroadcastState()
             pkt.players[i].flags &= ~PLAYER_FLAG_MY_TURN;
         }
 
-        for (int i = 0; i < MAX_PLAYER; ++i)
-        {
-            pkt.projectileActive[i] = g_projectileActive[i];
-            pkt.projX[i] = g_projX[i];
-            pkt.projY[i] = g_projY[i];
-        }
+        pkt.projectileActive = g_projectileActive;
+        pkt.projX = g_projX;
+        pkt.projY = g_projY;
     }
 
     BroadcastPacket((char*)&pkt, sizeof(pkt));
