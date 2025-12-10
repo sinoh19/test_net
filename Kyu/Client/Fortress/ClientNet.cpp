@@ -138,27 +138,40 @@ static void ApplyStatePacket(const struct PKT_STATE& pkt)
     isFired = firingAnim;
 
 
-    // 프로젝트일 좌표는 서버 기준으로 초기화한다.
-    // 양쪽 모두 발사 중이 아닐 때에만 덮어써, 진행 중인 로컬 탄도 계산을 건드리지 않는다.
-    const bool acceptServerProjectile = !A.isFire && !B.isFire;
-
-    if (acceptServerProjectile && pkt.projectileActive)
+    // 서버에서 전달한 포탄 좌표를 원격 플레이어 탄에 반영해 지형 파괴 위치가 어긋나지 않도록 한다.
+    if (pkt.projectileActive)
     {
-        x = pkt.projX;
-        y = pkt.projY;
+        for (int i = 0; i < MAX_PLAYER; ++i)
+        {
+            const PlayerStateData& state = pkt.players[i];
+            const bool projectileFired = (state.flags & PLAYER_FLAG_PROJECTILE_FIRED) != 0;
+            if (!projectileFired)
+                continue;
+
+            if (CanControlPlayer(i))
+                continue; // 내 탄은 로컬에서 이미 계산됨
+
+            Fire* player = GetPlayerById(i);
+            if (!player)
+                continue;
+
+            player->x = pkt.projX;
+            player->y = pkt.projY;
+            player->isFire = true;
+        }
     }
 
     // 서버에서 포탄이 사라졌다고 알려오면 좌표를 즉시 초기화해 잔상이 남지 않도록 한다.
     if (!pkt.projectileActive && g_lastProjectileActive)
     {
-        x = -100.0;
-        y = -100.0;
+        A.x = -100.0;
+        A.y = -100.0;
+        B.x = -100.0;
+        B.y = -100.0;
         g_lastProjectileActive = false;
     }
 
-    g_lastProjectileActive = acceptServerProjectile
-        ? pkt.projectileActive
-        : (g_lastProjectileActive && pkt.projectileActive);
+    g_lastProjectileActive = pkt.projectileActive;
 }
 
 
@@ -176,9 +189,11 @@ static void ApplyFirePacket(const struct PKT_FIRE& pkt)
     if (cache.hasData)
     {
         const bool samePayload = memcmp(&cache.pkt, &pkt, sizeof(PKT_FIRE)) == 0;
-        const bool sameInput = cache.inputVersion == g_fireInputVersion[pkt.playerId];
-        if (samePayload && sameInput)
-            return; // 입력 변화 없이 반복 수신된 동일 패킷은 무시
+        const DWORD now = GetTickCount();
+
+        // 입력 버전 변화와 관계없이 동일 페이로드가 짧은 시간 안에 두 번 오면 중복 발사로 간주한다.
+        if (samePayload && now - cache.tick < 200)
+            return;
     }
 
     // 이미 발사 중인 탄이 있을 때 중복으로 새 발사를 만들지 않는다.
@@ -396,8 +411,8 @@ void SendPlayerState(int playerIndex, bool force)
     pkt.playerId = playerIndex;
     pkt.state = state;
     pkt.projectileActive = player->isFire;
-    pkt.projX = static_cast<float>(x);
-    pkt.projY = static_cast<float>(y);
+    pkt.projX = static_cast<float>(player->x);
+    pkt.projY = static_cast<float>(player->y);
 
     SendPacket(reinterpret_cast<char*>(&pkt), sizeof(struct PKT_MOVE));
 
