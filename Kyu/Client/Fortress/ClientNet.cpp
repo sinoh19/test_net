@@ -351,10 +351,12 @@ void SendPlayerState(int playerIndex, bool force)
     if (!g_isConnected)
         return;
 
+    const DWORD sendIntervalMs = 1000 / 60; // 60 FPS 전송 간격
+
     static DWORD lastSendTick[MAX_PLAYER] = { 0, 0 };
     DWORD now = GetTickCount();
 
-    if (!force && now - lastSendTick[playerIndex] < 30)
+    if (!force && now - lastSendTick[playerIndex] < sendIntervalMs)
         return;
 
     Fire* player = GetPlayerById(playerIndex);
