@@ -31,10 +31,12 @@ static bool           g_hasFireInput[MAX_PLAYER] = {};
 static float          g_lastAngle[MAX_PLAYER] = {};
 static float          g_lastPower[MAX_PLAYER] = {};
 static int            g_lastShootMode[MAX_PLAYER] = {};
-static bool           g_lastProjectileActive = false;
+static bool           g_lastProjectileActive[MAX_PLAYER] = {};
 
 extern Fire A;
 extern Fire B;
+extern double projectileX[MAX_PLAYER];
+extern double projectileY[MAX_PLAYER];
 extern bool player1_left;
 extern bool player2_left;
 extern bool p1isMoving;
@@ -138,27 +140,25 @@ static void ApplyStatePacket(const struct PKT_STATE& pkt)
     isFired = firingAnim;
 
 
-    // 프로젝트일 좌표는 서버 기준으로 초기화한다.
-    // 양쪽 모두 발사 중이 아닐 때에만 덮어써, 진행 중인 로컬 탄도 계산을 건드리지 않는다.
-    const bool acceptServerProjectile = !A.isFire && !B.isFire;
-
-    if (acceptServerProjectile && pkt.projectileActive)
+    // Sync projectile coordinates per player from the server.
+    for (int i = 0; i < MAX_PLAYER; ++i)
     {
-        x = pkt.projX;
-        y = pkt.projY;
-    }
+        if (!CanControlPlayer(i))
+        {
+            if (pkt.projectileActive[i])
+            {
+                projectileX[i] = pkt.projX[i];
+                projectileY[i] = pkt.projY[i];
+            }
+            else if (g_lastProjectileActive[i])
+            {
+                projectileX[i] = -100.0;
+                projectileY[i] = -100.0;
+            }
+        }
 
-    // 서버에서 포탄이 사라졌다고 알려오면 좌표를 즉시 초기화해 잔상이 남지 않도록 한다.
-    if (!pkt.projectileActive && g_lastProjectileActive)
-    {
-        x = -100.0;
-        y = -100.0;
-        g_lastProjectileActive = false;
+        g_lastProjectileActive[i] = pkt.projectileActive[i];
     }
-
-    g_lastProjectileActive = acceptServerProjectile
-        ? pkt.projectileActive
-        : (g_lastProjectileActive && pkt.projectileActive);
 }
 
 
@@ -396,8 +396,8 @@ void SendPlayerState(int playerIndex, bool force)
     pkt.playerId = playerIndex;
     pkt.state = state;
     pkt.projectileActive = player->isFire;
-    pkt.projX = static_cast<float>(x);
-    pkt.projY = static_cast<float>(y);
+    pkt.projX = static_cast<float>(projectileX[playerIndex]);
+    pkt.projY = static_cast<float>(projectileY[playerIndex]);
 
     SendPacket(reinterpret_cast<char*>(&pkt), sizeof(struct PKT_MOVE));
 
