@@ -11,6 +11,7 @@
 
 #define SERVERPORT 9000
 #define MAX_CLIENT MAX_PLAYER
+#define SERVER_TICK 33   // ✅ 30 FPS 동기화
 
 struct ClientSlot
 {
@@ -23,59 +24,36 @@ static PlayerStateData g_playerStates[MAX_PLAYER] = {};
 static std::mutex g_stateLock;
 
 DWORD WINAPI ClientThread(LPVOID arg);
+DWORD WINAPI ServerTickThread(LPVOID arg);
+
 void BroadcastPacket(const char* buf, int len, SOCKET exceptSock = INVALID_SOCKET);
 void BroadcastState();
 
 int main()
 {
     WSADATA wsa;
-    if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
-    {
-        printf("WSAStartup() fail\n");
-        return 0;
-    }
+    WSAStartup(MAKEWORD(2, 2), &wsa);
 
     SOCKET listen_sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (listen_sock == INVALID_SOCKET)
-    {
-        printf("socket() fail\n");
-        WSACleanup();
-        return 0;
-    }
 
-    SOCKADDR_IN serveraddr = {};
+    SOCKADDR_IN serveraddr{};
     serveraddr.sin_family = AF_INET;
     serveraddr.sin_addr.s_addr = htonl(INADDR_ANY);
     serveraddr.sin_port = htons(SERVERPORT);
 
-    if (bind(listen_sock, (SOCKADDR*)&serveraddr, sizeof(serveraddr)) == SOCKET_ERROR)
-    {
-        printf("bind() error\n");
-        closesocket(listen_sock);
-        WSACleanup();
-        return 0;
-    }
+    bind(listen_sock, (SOCKADDR*)&serveraddr, sizeof(serveraddr));
+    listen(listen_sock, SOMAXCONN);
 
-    if (listen(listen_sock, SOMAXCONN) == SOCKET_ERROR)
-    {
-        printf("listen() error\n");
-        closesocket(listen_sock);
-        WSACleanup();
-        return 0;
-    }
+    printf("=== Fortress Tick Server Started (%d FPS) ===\n", 1000 / SERVER_TICK);
 
-    printf("=== Fortress Server Started (port %d) ===\n", SERVERPORT);
+    // ✅ Tick 스레드 시작
+    CreateThread(NULL, 0, ServerTickThread, NULL, 0, NULL);
 
     while (true)
     {
         SOCKADDR_IN clientaddr;
         int addrlen = sizeof(clientaddr);
         SOCKET client_sock = accept(listen_sock, (SOCKADDR*)&clientaddr, &addrlen);
-        if (client_sock == INVALID_SOCKET)
-        {
-            printf("accept() error\n");
-            continue;
-        }
 
         int slot = -1;
         for (int i = 0; i < MAX_CLIENT; ++i)
@@ -89,7 +67,6 @@ int main()
 
         if (slot == -1)
         {
-            printf("서버 풀 (MAX_CLIENT=%d) 초과. 접속 거부\n", MAX_CLIENT);
             closesocket(client_sock);
             continue;
         }
@@ -102,20 +79,26 @@ int main()
         join.playerId = slot;
         send(client_sock, (char*)&join, sizeof(join), 0);
 
-        printf("클라이언트 접속! slot=%d sock=%d playerId=%d\n", slot, (int)client_sock, join.playerId);
+        printf("클라이언트 접속 slot=%d\n", slot);
 
         HANDLE hThread = CreateThread(NULL, 0, ClientThread, (LPVOID)(intptr_t)slot, 0, NULL);
-        if (hThread)
-            CloseHandle(hThread);
-
-        BroadcastState();
+        CloseHandle(hThread);
     }
 
-    closesocket(listen_sock);
-    WSACleanup();
     return 0;
 }
 
+// ✅ 30FPS 고정 동기화 Thread
+DWORD WINAPI ServerTickThread(LPVOID)
+{
+    while (true)
+    {
+        BroadcastState();
+        Sleep(SERVER_TICK);
+    }
+}
+
+// ✅ 클라이언트 입력 처리 Thread
 DWORD WINAPI ClientThread(LPVOID arg)
 {
     int slot = (int)(intptr_t)arg;
@@ -126,68 +109,43 @@ DWORD WINAPI ClientThread(LPVOID arg)
     while (true)
     {
         int recvlen = recv(client_sock, buf, sizeof(buf), 0);
-        if (recvlen <= 0)
-        {
-            printf("클라이언트 종료 slot=%d\n", slot);
-            break;
-        }
+        if (recvlen <= 0) break;
 
-        BYTE type = (BYTE)buf[0];
+        BYTE type = buf[0];
 
-        if (type == PKT_TYPE_MOVE && recvlen >= (int)sizeof(PKT_MOVE))
+        if (type == PKT_TYPE_MOVE && recvlen >= sizeof(PKT_MOVE))
         {
             PKT_MOVE pkt{};
-            memcpy(&pkt, buf, sizeof(PKT_MOVE));
+            memcpy(&pkt, buf, sizeof(pkt));
 
-            // 클라이언트가 보낸 playerId와 상관없이 슬롯 기준으로 강제 매핑
-            const int playerId = slot;
-            if (playerId >= 0 && playerId < MAX_PLAYER)
-            {
-                std::lock_guard<std::mutex> lock(g_stateLock);
-                g_playerStates[playerId] = pkt.state;
-                g_playerStates[playerId].flags |= PLAYER_FLAG_VALID;
-
-                // ★ 클라가 MY_TURN 플래그를 장난쳐도 서버는 무시
-                g_playerStates[playerId].flags &= ~PLAYER_FLAG_MY_TURN;
-            }
-            BroadcastState();
+            std::lock_guard<std::mutex> lock(g_stateLock);
+            g_playerStates[slot] = pkt.state;
+            g_playerStates[slot].flags |= PLAYER_FLAG_VALID;
         }
-        else if (type == PKT_TYPE_FIRE && recvlen >= (int)sizeof(PKT_FIRE))
+        else if (type == PKT_TYPE_FIRE && recvlen >= sizeof(PKT_FIRE))
         {
             PKT_FIRE pkt{};
-            memcpy(&pkt, buf, sizeof(PKT_FIRE));
-
-            // 발사 패킷도 슬롯 기준으로 ID를 고정해 잘못된 제어를 방지
-            pkt.playerId = slot;
-            BroadcastPacket((char*)&pkt, sizeof(pkt), INVALID_SOCKET);
-            printf("발사 playerId=%d\n", pkt.playerId);
-        }
-        else if (type == PKT_TYPE_TERRAIN_DELTA && recvlen >= sizeof(PKT_TERRAIN_DELTA))
-        {
-            PKT_TERRAIN_DELTA pkt{};
             memcpy(&pkt, buf, sizeof(pkt));
-            BroadcastPacket((char*)&pkt, sizeof(pkt), INVALID_SOCKET);
-            printf("지형파괴 동기화\n");
+            pkt.playerId = slot;
+
+            BroadcastPacket((char*)&pkt, sizeof(pkt));
         }
-        else
+        else if (type == PKT_TYPE_TERRAIN_DELTA)
         {
-            printf("Unknown packet type=%d len=%d\n", type, recvlen);
+            BroadcastPacket(buf, recvlen);
         }
     }
 
     closesocket(client_sock);
     g_clients[slot].sock = INVALID_SOCKET;
-    g_clients[slot].id = -1;
 
-    {
-        std::lock_guard<std::mutex> lock(g_stateLock);
-        memset(&g_playerStates[slot], 0, sizeof(PlayerStateData));
-    }
+    std::lock_guard<std::mutex> lock(g_stateLock);
+    memset(&g_playerStates[slot], 0, sizeof(PlayerStateData));
 
-    BroadcastState();
     return 0;
 }
 
+// ✅ 패킷 브로드캐스트
 void BroadcastPacket(const char* buf, int len, SOCKET exceptSock)
 {
     for (int i = 0; i < MAX_CLIENT; ++i)
@@ -200,6 +158,7 @@ void BroadcastPacket(const char* buf, int len, SOCKET exceptSock)
     }
 }
 
+// ✅ 상태 동기화 전용 패킷
 void BroadcastState()
 {
     PKT_STATE pkt{};
@@ -211,8 +170,6 @@ void BroadcastState()
         for (int i = 0; i < MAX_PLAYER; ++i)
         {
             pkt.players[i] = g_playerStates[i];
-
-            // 실시간 대전: 턴 정보는 사용하지 않으므로 MY_TURN 비트를 강제로 제거
             pkt.players[i].flags &= ~PLAYER_FLAG_MY_TURN;
         }
     }

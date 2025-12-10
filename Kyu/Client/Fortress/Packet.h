@@ -77,6 +77,10 @@ struct PKT_STATE
     BYTE type;
     int  playerCount;
     PlayerStateData players[MAX_PLAYER];
+
+    bool  projectileActive;
+    float projX;
+    float projY;
 };
 
 struct PKT_TURN_END

@@ -40,11 +40,12 @@ static Fire* GetPlayerById(int playerId)
 static void ApplyStatePacket(const struct PKT_STATE& pkt)
 {
     bool firingAnim = false;
+
     for (int i = 0; i < MAX_PLAYER; ++i)
     {
         const PlayerStateData& state = pkt.players[i];
 
-        // 실시간 대전 모드: 턴 개념 없이 두 플레이어 모두 활성화
+        // 실시간 모드: 턴 항상 활성
         if (i == 0)
             player_1turn = true;
         else if (i == 1)
@@ -58,9 +59,9 @@ static void ApplyStatePacket(const struct PKT_STATE& pkt)
             continue;
 
         const auto lerp = [](double current, double target)
-        {
-            return current + (target - current) * 0.35;
-        };
+            {
+                return current + (target - current) * 0.35;
+            };
 
         if (CanControlPlayer(i))
         {
@@ -82,7 +83,6 @@ static void ApplyStatePacket(const struct PKT_STATE& pkt)
         const bool facingLeft = (state.flags & PLAYER_FLAG_FACING_LEFT) != 0;
         const bool moving = (state.flags & PLAYER_FLAG_MOVING) != 0;
         const bool animFiring = (state.flags & PLAYER_FLAG_FIRING_ANIM) != 0;
-        const bool projectileActive = (state.flags & PLAYER_FLAG_PROJECTILE_FIRED) != 0;
 
         if (i == 0)
         {
@@ -97,13 +97,22 @@ static void ApplyStatePacket(const struct PKT_STATE& pkt)
             player2TankNumber = state.tankType;
         }
 
-        player->isFire = projectileActive;
-        if (projectileActive)
-            player->set_ball();
-
         firingAnim = firingAnim || animFiring;
     }
+
     isFired = firingAnim;
+
+
+    if (pkt.projectileActive)
+    {
+        A.isFire = true;           // 네가 쓰는 Fire A 기준
+        A.x = pkt.projX;
+        A.y = pkt.projY;
+    }
+    else
+    {
+        A.isFire = false;
+    }
 }
 
 static void ApplyFirePacket(const struct PKT_FIRE& pkt)

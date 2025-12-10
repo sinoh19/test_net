@@ -1,9 +1,11 @@
-#pragma once
+ï»¿#pragma once
 #define WIN32_LEAN_AND_MEAN
 #define _WINSOCKAPI_
 #include <windows.h>
 
 #define MAX_PLAYER 2
+
+
 
 // ---- Packet types ----
 enum PACKET_TYPE : BYTE
@@ -13,7 +15,7 @@ enum PACKET_TYPE : BYTE
     PKT_TYPE_FIRE = 3,
     PKT_TYPE_STATE = 4,
     PKT_TYPE_TERRAIN_DELTA = 5,
-    PKT_TYPE_TURN_END = 6, // Ãß°¡
+    PKT_TYPE_TURN_END = 6, // ì¶”ê°€
 };
 
 // ---- Player replication flags ----
@@ -70,17 +72,21 @@ struct PKT_STATE
     BYTE type;
     int  playerCount;
     PlayerStateData players[MAX_PLAYER];
+
+    bool  projectileActive;
+    float projX;
+    float projY;
 };
 
 struct PKT_TURN_END
 {
     BYTE type;      // PKT_TYPE_TURN_END
-    int  playerId;  // ÅÏÀ» ³¡³»´Â ÇÃ·¹ÀÌ¾î
+    int  playerId;  // í„´ì„ ëë‚´ëŠ” í”Œë ˆì´ì–´
 };
 
 struct PKT_TERRAIN_DELTA {
     BYTE type;        // PKT_TYPE_TERRAIN_DELTA
-    int  x;           // Ãæµ¹/ÆÄ±« Áß½É
+    int  x;           // ì¶©ëŒ/íŒŒê´´ ì¤‘ì‹¬
     int  y;
     int  radius;      
     int  shoot_mode;  
