@@ -112,7 +112,7 @@
               "RelativeDocumentMoniker": "Fortress\\Player.cpp",
               "ToolTip": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Player.cpp",
               "RelativeToolTip": "Fortress\\Player.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-11-19T21:22:25.709Z",
               "EditorCaption": ""
@@ -151,8 +151,7 @@
               "RelativeToolTip": "Fortress\\ClientNet.cpp",
               "ViewState": "AgIAAFYBAAAAAAAAAAAAAGYBAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-11-19T21:22:14.026Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-19T21:22:14.026Z"
             },
             {
               "$type": "Document",

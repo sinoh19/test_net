@@ -109,6 +109,12 @@ static void ApplyStatePacket(const struct PKT_STATE& pkt)
         player->power = state.power;
         player->shoot_mode = state.shoot_mode;
 
+        const bool projectileFired = (state.flags & PLAYER_FLAG_PROJECTILE_FIRED) != 0;
+        if (!CanControlPlayer(i))
+        {
+            player->isFire = projectileFired;
+        }
+
         const bool facingLeft = (state.flags & PLAYER_FLAG_FACING_LEFT) != 0;
         const bool moving = (state.flags & PLAYER_FLAG_MOVING) != 0;
         const bool animFiring = (state.flags & PLAYER_FLAG_FIRING_ANIM) != 0;
