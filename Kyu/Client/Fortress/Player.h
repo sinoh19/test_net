@@ -129,7 +129,7 @@ public:
 
     void Action(double* ball_x, double* ball_y, int tank_mode);
 
-    void Hit(double left, double top,
+    bool Hit(double left, double top,
         double* targetHP,
         int tank_mode);
 

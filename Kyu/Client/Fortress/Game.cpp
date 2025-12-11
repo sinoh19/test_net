@@ -1175,7 +1175,11 @@ void physics_Action(HWND hWnd)
         SendPlayerState(0);       // A 상태 서버로 전송
 
     if (A.isFire)
-        A.Hit(B.left, B.top, &B.HP, player1TankNumber);  // B HP 감소 체크
+    {
+        const bool hit = A.Hit(B.left, B.top, &B.HP, player1TankNumber);  // B HP 감소 체크
+        if (hit && IsNetworkConnected())
+            SendPlayerState(1, true);
+    }
 
     // --- 플레이어 B 처리 ---
     B.Action(&B.x, &B.y, player2TankNumber);
@@ -1195,7 +1199,11 @@ void physics_Action(HWND hWnd)
         SendPlayerState(1);       // B 상태 서버로 전송
 
     if (B.isFire)
-        B.Hit(A.left, A.top, &A.HP, player2TankNumber);
+    {
+        const bool hit = B.Hit(A.left, A.top, &A.HP, player2TankNumber);
+        if (hit && IsNetworkConnected())
+            SendPlayerState(0, true);
+    }
 }
 
 void camera_turn()

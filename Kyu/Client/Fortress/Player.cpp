@@ -436,7 +436,7 @@ void Fire::Action(double* ball_x, double* ball_y, int tank_mode)
     }
 }
 
-void Fire::Hit(double left, double top,
+bool Fire::Hit(double left, double top,
     double* targetHP,
     int tank_mode)
 {
@@ -459,11 +459,16 @@ void Fire::Hit(double left, double top,
         else if (tank_mode == 3)
             *targetHP -= 20;
 
+        if (*targetHP < 0)
+            *targetHP = 0;
+
         // 턴 전환 삭제, 탄만 리셋
         ResetGauge();
         set_ball();
-        return;
+        return true;
     }
+
+    return false;
 }
 
 void Fire::shoot_1(bool* player_1turn, bool* player_2turn,

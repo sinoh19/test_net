@@ -1,4 +1,7 @@
-﻿  Game.cpp
+﻿  ClientNet.cpp
+  Fortress.cpp
+  Game.cpp
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Fortress.cpp(66,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(226,62): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(226,55): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(230,62): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
@@ -309,12 +312,18 @@ C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1135,42): warni
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1135,35): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1172,24): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1172,16): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1192,24): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1192,16): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1978,43): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1978,35): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1979,43): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1979,35): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(2223,28): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(2224,28): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1196,24): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1196,16): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1986,43): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1986,35): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1987,43): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1987,35): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(2231,28): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(2232,28): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Player.cpp
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Player.cpp(105,46): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Player.cpp(105,34): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Player.cpp(105,24): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Player.cpp(105,18): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
   Fortress.vcxproj -> C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\x64\Debug\Fortress.exe
