@@ -1177,7 +1177,9 @@ void physics_Action(HWND hWnd)
     if (A.isFire)
     {
         const bool hit = A.Hit(B.left, B.top, &B.HP, player1TankNumber);  // B HP 감소 체크
-        if (hit && IsNetworkConnected())
+
+        // 맞은 플레이어 본인만 자신의 상태를 서버로 보고하도록 제한
+        if (hit && IsNetworkConnected() && CanControlPlayer(1))
             SendPlayerState(1, true);
     }
 
@@ -1201,7 +1203,9 @@ void physics_Action(HWND hWnd)
     if (B.isFire)
     {
         const bool hit = B.Hit(A.left, A.top, &A.HP, player2TankNumber);
-        if (hit && IsNetworkConnected())
+
+        // 맞은 플레이어 본인만 자신의 상태를 서버로 보고하도록 제한
+        if (hit && IsNetworkConnected() && CanControlPlayer(0))
             SendPlayerState(0, true);
     }
 }

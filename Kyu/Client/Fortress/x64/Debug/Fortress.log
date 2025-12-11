@@ -312,8 +312,16 @@ C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1135,42): warni
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1135,35): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1172,24): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1172,16): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1179,31): error C2440: '초기화 중': 'void'에서 'bool'(으)로 변환할 수 없습니다.
+      C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1179,31):
+      void 형식의 식을 다른 형식으로 변환할 수 없습니다.
+  
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1196,24): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1196,16): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1203,31): error C2440: '초기화 중': 'void'에서 'bool'(으)로 변환할 수 없습니다.
+      C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1203,31):
+      void 형식의 식을 다른 형식으로 변환할 수 없습니다.
+  
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1986,43): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1986,35): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Game.cpp(1987,43): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
@@ -325,5 +333,12 @@ C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Player.cpp(105,46): warn
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Player.cpp(105,34): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Player.cpp(105,24): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Player.cpp(105,18): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Player.cpp(439,12): error C2556: 'bool Fire::Hit(double,double,double *,int)': 오버로드된 함수가 'void Fire::Hit(double,double,double *,int)'과(와) 반환 형식만 다릅니다.
+      C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Player.h(132,10):
+      'Fire::Hit' 선언을 참조하십시오.
+  
+C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Player.cpp(439,12): error C2371: 'Fire::Hit': 재정의. 기본 형식이 다릅니다.
+      C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\Fortress\Player.h(132,10):
+      'Fire::Hit' 선언을 참조하십시오.
+  
   코드를 생성하고 있습니다...
-  Fortress.vcxproj -> C:\Users\sinoh\Desktop\git\test_net\Kyu\Client\x64\Debug\Fortress.exe

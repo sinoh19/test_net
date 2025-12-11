@@ -66,8 +66,7 @@
               "RelativeToolTip": "Fortress\\Packet.h",
               "ViewState": "AgIAADMAAAAAAAAAAAAAAFIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-11-19T21:22:47.584Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-19T21:22:47.584Z"
             },
             {
               "$type": "Document",
@@ -115,8 +114,7 @@
               "RelativeToolTip": "Fortress\\Game.cpp",
               "ViewState": "AgIAAAwHAAAAAAAAAAAnwBgHAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-11-19T21:22:26.128Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-19T21:22:26.128Z"
             },
             {
               "$type": "Document",
@@ -148,9 +146,9 @@
               "Title": "Player.h",
               "DocumentMoniker": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Player.h",
               "RelativeDocumentMoniker": "Fortress\\Player.h",
-              "ToolTip": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Player.h*",
-              "RelativeToolTip": "Fortress\\Player.h*",
-              "ViewState": "AgIAAHEAAAAAAAAAAAAIwIQAAAAZAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\sinoh\\Desktop\\git\\test_net\\Kyu\\Client\\Fortress\\Player.h",
+              "RelativeToolTip": "Fortress\\Player.h",
+              "ViewState": "AgIAAHQAAAAAAAAAAAAnwIcAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-11-19T21:22:52.383Z",
               "EditorCaption": ""
