@@ -68,8 +68,8 @@ int flareAni = 0;
 int map13WindAni = 0;
 int map2WindAni = 0;
 
-int player1TankNumber = 0;
-int player2TankNumber = 0;
+int player1TankNumber = 3;
+int player2TankNumber = 3;
 
 bool AitemFix = false;
 bool AitemTeleport = false;
@@ -81,16 +81,16 @@ bool BitemPowerup = false;
 
 bool camera_mode = false;
 
-bool isCharacter1Selected = false;
-bool isCharacter2Selected = false;
+bool isCharacter1Selected = true;
+bool isCharacter2Selected = true;
 bool isMapSelected = false;
 bool isStarted = false;
-bool isSelectedCharacter = false;
+bool isSelectedCharacter = true;
 bool isSelectedMap = false;
 
 int select_map = 0;
 
-bool player1_select = true;
+bool player1_select = false;
 bool player2_select = false;
 
 bool player1_rect1 = false;
@@ -1800,13 +1800,13 @@ void reset(HWND hWnd)
     randNum = 0;
     player_1turn = true;
     player_2turn = true;
-    player1_select = true;
+    player1_select = false;
     player2_select = false;
     player1_rect1 = false;
-    player1_rect2 = false;
+    player1_rect2 = true;
     player1_rect3 = false;
     player2_rect1 = false;
-    player2_rect2 = false;
+    player2_rect2 = true;
     player2_rect3 = false;
     map_rect1 = false;
     map_rect2 = false;
@@ -1817,10 +1817,10 @@ void reset(HWND hWnd)
     map13WindAni = 0; // 4프레임
     map2WindAni = 0; // 8프레임
     select_map = 0;
-    player1TankNumber = 0;
-    player2TankNumber = 0;
-    isCharacter1Selected = false; //게임시작시 캐릭터 선택
-    isCharacter2Selected = false; //게임시작시 캐릭터 선택
+    player1TankNumber = 3;
+    player2TankNumber = 3;
+    isCharacter1Selected = true; //게임시작시 캐릭터 선택
+    isCharacter2Selected = true; //게임시작시 캐릭터 선택
     isMapSelected = false; //맵선택
     isStarted = false;
     isSelectedMap = false;
@@ -1843,7 +1843,7 @@ void reset(HWND hWnd)
     tank3FireAni = 0; //5프레임
     flareAni = 0; //12프레임
     camera_mode = false;
-    isSelectedCharacter = false;
+    isSelectedCharacter = true;
     A.Speed = 0;
     B.Speed = 0;
     A.power = 0;
@@ -1878,7 +1878,8 @@ void DrawFrame(HWND hWnd, HDC hDC)
 {
     HBITMAP hBackBufferBitmap;
 
-    if (!isCharacter1Selected && !isCharacter2Selected && !isMapSelected)
+    // 맵만 선택하면 바로 시작할 수 있도록 캐릭터는 기본값으로 고정한다.
+    if (!isMapSelected)
     {
         // 선택 화면
         CMSelect = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP114));
