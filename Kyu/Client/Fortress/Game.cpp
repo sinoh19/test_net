@@ -6,6 +6,19 @@
 #include <random>
 #include "Game.h"
 #include "ClientNet.h"
+
+namespace 
+{
+    constexpr int kBackBufferWidth = 1600;
+    constexpr int kBackBufferHeight = 800;
+    constexpr int kUiWidth = 600;
+    constexpr int kUiHeight = 440;
+
+    int GetUiTopY(int camera_y)
+    {
+        return camera_y + (kBackBufferHeight - kUiHeight);
+    }
+}
 // ===== 전역 변수 실제 정의 =====
 Fire A;
 Fire B;
@@ -845,12 +858,14 @@ void Draw_tank()
 
 void Draw_skill()
 {
+    const int uiTop = GetUiTopY(camera_y);
+
     if (A.shoot_mode == 1 && player_1turn && A.shoot1 == true)
     {
-        HPEN myPen = CreatePen(PS_SOLID, 4, RGB(255, 0, 0));
+        HPEN myPen = CreatePen(PS_SOLID, 4, RGB(255, 255, 0));
         HPEN OldPen = (HPEN)SelectObject(hBackBuffer, myPen);
         SelectObject(hBackBuffer, myPen);
-        Rectangle(hBackBuffer, camera_x + 500, camera_y + 360, camera_x + 527, camera_y + 385);
+        Rectangle(hBackBuffer, camera_x + 500, camera_y + 760, camera_x + 527, camera_y + 785);
         SelectObject(hBackBuffer, OldPen);
         DeleteObject(myPen);
     }
@@ -859,7 +874,7 @@ void Draw_skill()
         HPEN myPen = CreatePen(PS_SOLID, 4, RGB(255, 0, 0));
         HPEN OldPen = (HPEN)SelectObject(hBackBuffer, myPen);
         SelectObject(hBackBuffer, myPen);
-        Rectangle(hBackBuffer, camera_x + 500, camera_y + 360, camera_x + 527, camera_y + 385);
+        Rectangle(hBackBuffer, camera_x + 500, camera_y + 760, camera_x + 527, camera_y + 785);
         SelectObject(hBackBuffer, OldPen);
         DeleteObject(myPen);
     }
@@ -869,7 +884,7 @@ void Draw_skill()
         HPEN myPen = CreatePen(PS_SOLID, 4, RGB(255, 0, 0));
         HPEN OldPen = (HPEN)SelectObject(hBackBuffer, myPen);
         SelectObject(hBackBuffer, myPen);
-        Rectangle(hBackBuffer, camera_x + 530, camera_y + 360, camera_x + 557, camera_y + 385);
+        Rectangle(hBackBuffer, camera_x + 530, camera_y + 760, camera_x + 557, camera_y + 785);
         SelectObject(hBackBuffer, OldPen);
         DeleteObject(myPen);
     }
@@ -878,7 +893,7 @@ void Draw_skill()
         HPEN myPen = CreatePen(PS_SOLID, 4, RGB(255, 0, 0));
         HPEN OldPen = (HPEN)SelectObject(hBackBuffer, myPen);
         SelectObject(hBackBuffer, myPen);
-        Rectangle(hBackBuffer, camera_x + 530, camera_y + 360, camera_x + 557, camera_y + 385);
+        Rectangle(hBackBuffer, camera_x + 530, camera_y + 760, camera_x + 557, camera_y + 785);
         SelectObject(hBackBuffer, OldPen);
         DeleteObject(myPen);
     }
@@ -888,7 +903,7 @@ void Draw_skill()
         HPEN myPen = CreatePen(PS_SOLID, 4, RGB(255, 0, 0));
         HPEN OldPen = (HPEN)SelectObject(hBackBuffer, myPen);
         SelectObject(hBackBuffer, myPen);
-        Rectangle(hBackBuffer, camera_x + 560, camera_y + 360, camera_x + 587, camera_y + 385);
+        Rectangle(hBackBuffer, camera_x + 560, camera_y + 760, camera_x + 587, camera_y + 785);
         SelectObject(hBackBuffer, OldPen);
         DeleteObject(myPen);
     }
@@ -897,36 +912,36 @@ void Draw_skill()
         HPEN myPen = CreatePen(PS_SOLID, 4, RGB(255, 0, 0));
         HPEN OldPen = (HPEN)SelectObject(hBackBuffer, myPen);
         SelectObject(hBackBuffer, myPen);
-        Rectangle(hBackBuffer, camera_x + 560, camera_y + 360, camera_x + 587, camera_y + 385);
+        Rectangle(hBackBuffer, camera_x + 560, camera_y + 760, camera_x + 587, camera_y + 785);
         SelectObject(hBackBuffer, OldPen);
         DeleteObject(myPen);
     }
     //-----------------위는 테두리-----------아래는 아이콘-----------
     if ((!AitemPowerup && player_1turn) || (!BitemPowerup && player_2turn)) {
         SelectObject(MemDC, item[0]);
-        GdiTransparentBlt(hBackBuffer, camera_x + 500, camera_y + 360, 26, 24, MemDC, 0, 0, 26, 24, RGB(255, 0, 255));
+        GdiTransparentBlt(hBackBuffer, camera_x + 500, camera_y + 760, 26, 24, MemDC, 0, 0, 26, 24, RGB(255, 0, 255));
     }
     else {
         SelectObject(MemDC, item[1]);
-        GdiTransparentBlt(hBackBuffer, camera_x + 500, camera_y + 360, 26, 24, MemDC, 0, 0, 26, 24, RGB(255, 0, 255));
+        GdiTransparentBlt(hBackBuffer, camera_x + 500, camera_y + 760, 26, 24, MemDC, 0, 0, 26, 24, RGB(255, 0, 255));
     }
 
     if ((!AitemTeleport && player_1turn) || (!BitemTeleport && player_2turn)) {
         SelectObject(MemDC, item[2]);
-        GdiTransparentBlt(hBackBuffer, camera_x + 530, camera_y + 360, 26, 24, MemDC, 0, 0, 26, 24, RGB(255, 0, 255));
+        GdiTransparentBlt(hBackBuffer, camera_x + 530, camera_y + 760, 26, 24, MemDC, 0, 0, 26, 24, RGB(255, 0, 255));
     }
     else {
         SelectObject(MemDC, item[3]);
-        GdiTransparentBlt(hBackBuffer, camera_x + 530, camera_y + 360, 26, 24, MemDC, 0, 0, 26, 24, RGB(255, 0, 255));
+        GdiTransparentBlt(hBackBuffer, camera_x + 530, camera_y + 760, 26, 24, MemDC, 0, 0, 26, 24, RGB(255, 0, 255));
     }
 
     if ((!AitemFix && player_1turn) || (!BitemFix && player_2turn)) {
         SelectObject(MemDC, item[4]);
-        GdiTransparentBlt(hBackBuffer, camera_x + 560, camera_y + 360, 26, 24, MemDC, 0, 0, 26, 24, RGB(255, 0, 255));
+        GdiTransparentBlt(hBackBuffer, camera_x + 560, camera_y + 760, 26, 24, MemDC, 0, 0, 26, 24, RGB(255, 0, 255));
     }
     else {
         SelectObject(MemDC, item[5]);
-        GdiTransparentBlt(hBackBuffer, camera_x + 560, camera_y + 360, 26, 24, MemDC, 0, 0, 26, 24, RGB(255, 0, 255));
+        GdiTransparentBlt(hBackBuffer, camera_x + 560, camera_y + 760, 26, 24, MemDC, 0, 0, 26, 24, RGB(255, 0, 255));
     }
 }
 
@@ -1861,8 +1876,6 @@ void reset(HWND hWnd)
 
 void DrawFrame(HWND hWnd, HDC hDC)
 {
-    const int kBackBufferWidth = 1600;
-    const int kBackBufferHeight = 800;
     HBITMAP hBackBufferBitmap;
 
     if (!isCharacter1Selected && !isCharacter2Selected && !isMapSelected)
@@ -1969,9 +1982,14 @@ void DrawFrame(HWND hWnd, HDC hDC)
             UI = LoadBitmap(g_hInst, MAKEINTRESOURCE(IDB_BITMAP4));
 
         SelectObject(MemDC, UI);
+        const int kUiWidth = 600;
+        const int kUiHeight = 440;
+        /*const int kUiDestY = camera_y + (kBackBufferHeight - kUiHeight);*/
+        const int kUiDestY = GetUiTopY(camera_y);
+
         GdiTransparentBlt(
             hBackBuffer,
-            camera_x, camera_y - 40, 600, 440,
+            camera_x, kUiDestY, kUiWidth, kUiHeight,
             MemDC,
             0, 0, 600, 450,
             RGB(255, 0, 255)

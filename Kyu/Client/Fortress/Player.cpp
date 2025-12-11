@@ -5,6 +5,18 @@ extern Fire A;
 extern Fire B;
 
 
+namespace
+{
+    constexpr int kBackBufferHeight = 800;
+    constexpr int kUiHeight = 440;
+
+    int GetUiTopY(int camera_y)
+    {
+        return camera_y + (kBackBufferHeight - kUiHeight);
+    }
+}
+
+ 
 // ========================== Player ===========================
 
 Player::Player()
@@ -185,21 +197,21 @@ void Player::Render_PowerGauge(HDC hdc, int camera_x, int camera_y)
 {
     const int gaugeWidth = 265;
     const int gaugeHeight = 13;
+    
 
     int filledWidth = static_cast<int>((power_now / power_Max) * gaugeWidth);
 
     // 게이지 배경
     Rectangle(hdc,
-        camera_x + 224, camera_y + 368,
-        camera_x + 224 + gaugeWidth, camera_y + 368 + gaugeHeight);
-
+        camera_x + 224, camera_y + 768,
+        camera_x + 224 + gaugeWidth, camera_y + 768 + gaugeHeight);
     // 충전된 부분
     HBRUSH brush = CreateSolidBrush(RGB(255, 0, 0));
     HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, brush);
 
     Rectangle(hdc,
-        camera_x + 224, camera_y + 368,
-        camera_x + 224 + filledWidth, camera_y + 368 + gaugeHeight);
+        camera_x + 224, camera_y + 768,
+        camera_x + 224 + filledWidth, camera_y + 768 + gaugeHeight);
 
     SelectObject(hdc, oldBrush);
     DeleteObject(brush);
@@ -209,21 +221,23 @@ void Player::Render_SpeedGauge(HDC hdc, int camera_x, int camera_y)
 {
     const int gaugeWidth = 265;
     const int gaugeHeight = 13;
+    const int uiTop = GetUiTopY(camera_y);
+    const int gaugeTop = uiTop + 23;
 
     int filledWidth = static_cast<int>((Speed / Speed_Max) * gaugeWidth);
 
     // 게이지 배경
     Rectangle(hdc,
-        camera_x + 224, camera_y + 383,
-        camera_x + 224 + gaugeWidth, camera_y + 383 + gaugeHeight);
+        camera_x + 224, gaugeTop,
+        camera_x + 224 + gaugeWidth, gaugeTop + gaugeHeight);
 
     // 충전된 부분
     HBRUSH brush = CreateSolidBrush(RGB(0, 0, 255));
     HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, brush);
 
     Rectangle(hdc,
-        camera_x + 224, camera_y + 383,
-        camera_x + 224 + filledWidth, camera_y + 383 + gaugeHeight);
+        camera_x + 224, gaugeTop,
+        camera_x + 224 + filledWidth, gaugeTop + gaugeHeight);
 
     SelectObject(hdc, oldBrush);
     DeleteObject(brush);
@@ -272,8 +286,10 @@ void Line::set_radian()
 
 void Line::Render_Line(HDC hdc, int camera_x, int camera_y)
 {
+    const int uiTop = GetUiTopY(camera_y);
+
     begin_x = 70;
-    begin_y = 350;
+    begin_y = 750;
 
     double radianAngle = toRadians(angle + 90); // 각도를 라디안으로 변환
 
